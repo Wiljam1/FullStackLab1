@@ -22,6 +22,7 @@ Enklast att ha frontend öppet i Visual Studio Code och backend öppet i Intelli
 
 
 STARTA FRONT END: "npm start" i terminal i mappen "patientjournal-front"
+
 STARTA BACK END: Starta som vanligt i IntelliJ
 
 

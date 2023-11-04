@@ -14,6 +14,7 @@ Bra att installera React Developer Tools som tillägg i Webbläsaren.
 
 MySQL server används som databas, behöver ha följande inloggning (eller ändra någonstans till den man har, för att få access till databasen);
 username: root
+
 password: wiljamniklas
 
 

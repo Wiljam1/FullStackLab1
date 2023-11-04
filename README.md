@@ -27,6 +27,7 @@ STARTA BACK END: Starta som vanligt i IntelliJ
 
 
 Frontend körs på: http://localhost:3000/
+
 Backend körs på: http://localhost:8080/
 
 

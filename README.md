@@ -35,3 +35,4 @@ Backend körs på: http://localhost:8080/
 
 
 * Använd Postman för att testa backend (när man gör en ny mapping)
+* https://getbootstrap.com/ för att söka efter färdiga frontend-komponenter (tables, navbar osv)

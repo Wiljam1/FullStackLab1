@@ -4,8 +4,11 @@ Installera Node.js, Postman, MySQL Server + MySQL Workbench, npm, Java, IntelliJ
 
 
 Följande paket används via npm;
+
 https://www.npmjs.com/package/bootstrap
+
 https://www.npmjs.com/package/axios
+
 https://www.npmjs.com/package/react-router-dom
 
 

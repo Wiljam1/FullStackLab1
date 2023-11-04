@@ -24,7 +24,7 @@ password: wiljamniklas
 Enklast att ha frontend öppet i Visual Studio Code och backend öppet i IntelliJ
 
 
-STARTA FRONT END: "npm start" i terminal i mappen "patientjournal-front"
+STARTA FRONT END: "npm start" i terminal i mappen "patientjournal-front". Kanske behöver skriva "npm install" först.
 
 STARTA BACK END: Starta som vanligt i IntelliJ
 

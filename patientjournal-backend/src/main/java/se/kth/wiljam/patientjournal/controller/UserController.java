@@ -2,9 +2,8 @@ package se.kth.wiljam.patientjournal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
 import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.repository.UserRepository;
+import se.kth.wiljam.patientjournal.services.UserService;
 
 import java.util.List;
 
@@ -13,42 +12,30 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/user")
-    User newUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+    User newUser(@RequestBody User user) {
+        return userService.newUser(user);
     }
 
     @GetMapping("/users")
     List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("user/{id}")
     User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return userService.getUserById(id);
     }
 
     @PutMapping("user/{id}")
     User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    user.setName(newUser.getName());
-                    user.setUsername(newUser.getUsername());
-                    user.setEmail(newUser.getEmail());
-                    return userRepository.save(user);
-                })
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return userService.updateUser(newUser, id);
     }
 
     @DeleteMapping("/user/{id}")
     String deleteUser(@PathVariable Long id) {
-        if(!userRepository.existsById(id)) {
-            throw new UserNotFoundException(id);
-        }
-        userRepository.deleteById(id);
-        return "User with id " + id + " has been deleted sucessfully!";
+        return userService.deleteUser(id);
     }
 }

@@ -20,6 +20,7 @@ username: root
 
 password: wiljamniklas
 
+Man behöver populera databasen själv, ska gå att göra med hjälp av frontend-programmet (forms som skickas via axios -> Spring -> MySQL)
 
 Enklast att ha frontend öppet i Visual Studio Code och backend öppet i IntelliJ
 

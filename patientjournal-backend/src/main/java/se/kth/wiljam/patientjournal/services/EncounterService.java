@@ -8,6 +8,7 @@ import se.kth.wiljam.patientjournal.model.Observation;
 import se.kth.wiljam.patientjournal.model.User;
 import se.kth.wiljam.patientjournal.repository.EncounterRepository;
 import se.kth.wiljam.patientjournal.repository.ObservationRepository;
+import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
 
@@ -17,7 +18,20 @@ public class EncounterService {
     @Autowired
     private EncounterRepository encounterRepository;
 
+    //Vet inte om man ska ha service eller repository
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     public Encounter create(Encounter encounter) {
+        Long practitionerId = encounter.getPractitioner().getId();
+        Long patientId = encounter.getPatient().getId();
+        encounter.setPractitioner(userRepository.findById(practitionerId)
+                .orElseThrow(() -> new UserNotFoundException(practitionerId)));
+        encounter.setPatient(userRepository.findById(patientId)
+                .orElseThrow(() -> new UserNotFoundException(patientId)));
         return encounterRepository.save(encounter);
     }
 

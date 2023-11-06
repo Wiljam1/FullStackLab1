@@ -4,16 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 public class Observation {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "encounter_id")
     private Encounter encounter;
+
     @OneToOne
     private User performer;
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
     private User patient;
+
     private String subject;
     private String basedOn;
 

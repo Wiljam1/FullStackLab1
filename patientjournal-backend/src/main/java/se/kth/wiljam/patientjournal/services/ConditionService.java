@@ -35,7 +35,7 @@ public class ConditionService {
         return conditionRepository.findById(id)
                 .map(con -> {
                     con.setAsserter(condition.getAsserter());
-                    con.setEncounter(condition.getEncounter());
+                    con.setEncounters(condition.getEncounters());
                     con.setPatient(condition.getPatient());
                     con.setSubject(condition.getSubject());
                     con.setEvidenceDetail(condition.getEvidenceDetail());

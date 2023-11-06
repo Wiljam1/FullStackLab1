@@ -7,7 +7,8 @@ export default function ViewUser() {
     const [user, setUser] = useState({
         name:"",
         username:"",
-        email:""
+        email:"",
+        type:"",
     })
 
     const {id} = useParams();
@@ -42,6 +43,10 @@ export default function ViewUser() {
                             <li className='list-group-item'>
                                 <b>Email: </b>
                                 {user.email}
+                            </li>
+                            <li className='list-group-item'>
+                                <b>Type: </b>
+                                {user.type}
                             </li>
                         </ul>
                     </div>

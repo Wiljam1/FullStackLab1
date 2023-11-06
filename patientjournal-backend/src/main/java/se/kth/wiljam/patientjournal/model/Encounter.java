@@ -1,9 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -11,13 +8,16 @@ import java.util.Date;
 public class Encounter {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date appointment;
     private String location;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "practitioner_id")
     private User practitioner;
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
     private User patient;
     private String subject;
 

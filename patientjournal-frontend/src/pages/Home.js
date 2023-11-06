@@ -19,15 +19,22 @@ export default function Home() {
         setUsers(result.data);
     }
 
+    /*
     const deleteUser = async (id) => {
         await axios.delete(`http://localhost:8080/user/${id}`)
         loadUsers()
     } 
-
+    //Edit + Delete button
+    <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>
+        <button 
+        className='btn btn-danger mx-2'
+        onClick={() => deleteUser(user.id)}
+        >Delete</button>
+    */
   return (
     <div className='container'>
         <div className='py-4'>
-        <table className="table border shadow">
+        <table className="table shadow border">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -49,12 +56,7 @@ export default function Home() {
       <td>{user.email}</td>
       <td>{user.type}</td>
       <td>
-        <Link className='btn btn-primary mx-2' to={`/viewuser/${user.id}`}>View</Link>
-        <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>
-        <button 
-        className='btn btn-danger mx-2'
-        onClick={() => deleteUser(user.id)}
-        >Delete</button>
+        <Link className='btn btn-primary mx-2' to={`/viewuser/${user.id}`}>View</Link>    
       </td>
         </tr>
     ))

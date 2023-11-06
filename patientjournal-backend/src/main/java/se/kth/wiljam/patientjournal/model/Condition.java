@@ -2,19 +2,30 @@ package se.kth.wiljam.patientjournal.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "condition_table")
 public class Condition {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private User asserter;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private User patient;
-    @OneToOne
-    private Encounter encounter;
+
+    @ManyToOne
+    @JoinColumn(name = "asserter_id")
+    private User asserter;
+
+    @ManyToMany
+    @JoinTable(name = "condition_encounter",
+            joinColumns = @JoinColumn(name = "condition_id"),
+            inverseJoinColumns = @JoinColumn(name = "encounter_id")
+    )
+    private List<Encounter> encounters;
     private String evidenceDetail;
     private String subject;
 
@@ -42,12 +53,12 @@ public class Condition {
         this.patient = patient;
     }
 
-    public Encounter getEncounter() {
-        return encounter;
+    public List<Encounter> getEncounters() {
+        return encounters;
     }
 
-    public void setEncounter(Encounter encounter) {
-        this.encounter = encounter;
+    public void setEncounters(List<Encounter> encounters) {
+        this.encounters = encounters;
     }
 
     public String getEvidenceDetail() {

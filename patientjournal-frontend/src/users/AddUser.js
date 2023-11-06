@@ -9,10 +9,13 @@ export default function AddUser() {
     const [user, setUser] = useState({
         name:"",
         username:"",
-        email:""
+        email:"",
+        type:"DOCTOR",
+        observations: [],
+        conditions: [],
     })
 
-    const{name, username, email } = user
+    const{name, username, email, type} = user
 
     const onInputChange = (e) =>{
 
@@ -71,6 +74,21 @@ export default function AddUser() {
                     value={email}
                     onChange={(e) => onInputChange(e)}
                     />
+                </div>
+                <div className="mb-3">
+                <label htmlFor="Type" className="form-label">
+                    User Type
+                </label>
+                <select
+                    className="form-select"
+                    name="type"
+                    value={type}
+                    onChange={(e) => onInputChange(e)}
+                >
+                    <option value="DOCTOR">DOCTOR</option>
+                    <option value="PATIENT">PATIENT</option>
+                    <option value="STAFF">STAFF</option>
+                </select>
                 </div>
                 <button type='submit' className='btn btn-outline-primary'>
                     Submit

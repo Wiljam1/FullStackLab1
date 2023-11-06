@@ -13,6 +13,15 @@ public class User {
     private String username;
     private String name;
     private String email;
+    private UserType type;
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
+    }
 
     public Long getId() {
         return id;

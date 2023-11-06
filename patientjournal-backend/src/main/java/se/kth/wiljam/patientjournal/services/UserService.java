@@ -2,19 +2,30 @@ package se.kth.wiljam.patientjournal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
+import se.kth.wiljam.patientjournal.model.Observation;
 import se.kth.wiljam.patientjournal.model.User;
+import se.kth.wiljam.patientjournal.repository.ConditionRepository;
+import se.kth.wiljam.patientjournal.repository.EncounterRepository;
+import se.kth.wiljam.patientjournal.repository.ObservationRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
 
+
+
 @Service
 public class UserService {
 
+    //Kanske borde göra flera services för varje repository
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ConditionRepository conditionRepository;
+    @Autowired
+    private EncounterRepository encounterRepository;
+    @Autowired
+    private ObservationRepository observationRepository;
 
     public List<User> list() {
         return userRepository.findAll();

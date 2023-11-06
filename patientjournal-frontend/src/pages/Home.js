@@ -34,6 +34,7 @@ export default function Home() {
       <th scope="col">Name</th>
       <th scope="col">Username</th>
       <th scope="col">Email</th>
+      <th scope='col'>Type</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -46,6 +47,7 @@ export default function Home() {
       <td>{user.name}</td>
       <td>{user.username}</td>
       <td>{user.email}</td>
+      <td>{user.type}</td>
       <td>
         <Link className='btn btn-primary mx-2' to={`/viewuser/${user.id}`}>View</Link>
         <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>

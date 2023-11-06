@@ -1,11 +1,9 @@
 package se.kth.wiljam.patientjournal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "condition_table")
 public class Condition {
 
     @Id

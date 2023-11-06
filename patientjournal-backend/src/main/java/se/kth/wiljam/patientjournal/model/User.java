@@ -3,6 +3,9 @@ package se.kth.wiljam.patientjournal.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,6 +17,26 @@ public class User {
     private String name;
     private String email;
     private UserType type;
+    @OneToMany
+    List<Observation> observations;
+    @OneToMany
+    List<Condition> conditions;
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<Observation> observations) {
+        this.observations = observations;
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+    }
 
     public UserType getType() {
         return type;

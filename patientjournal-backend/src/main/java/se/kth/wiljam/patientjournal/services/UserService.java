@@ -20,12 +20,6 @@ public class UserService {
     //Kanske borde göra flera services för varje repository
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ConditionRepository conditionRepository;
-    @Autowired
-    private EncounterRepository encounterRepository;
-    @Autowired
-    private ObservationRepository observationRepository;
 
     public List<User> list() {
         return userRepository.findAll();

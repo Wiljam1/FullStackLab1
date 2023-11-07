@@ -56,4 +56,9 @@ public class UserController {
     String deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
+
+    @GetMapping("/login")
+    User checkLogin(@RequestParam String userName, @RequestParam String password) {
+        return userService.checkValidLogin(userName, password);
+    }
 }

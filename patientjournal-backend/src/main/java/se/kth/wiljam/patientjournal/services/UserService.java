@@ -1,13 +1,13 @@
 package se.kth.wiljam.patientjournal.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Observation;
+import se.kth.wiljam.patientjournal.model.Patient;
 import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.repository.ConditionRepository;
-import se.kth.wiljam.patientjournal.repository.EncounterRepository;
-import se.kth.wiljam.patientjournal.repository.ObservationRepository;
+import se.kth.wiljam.patientjournal.model.UserType;
+import se.kth.wiljam.patientjournal.repository.PatientRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
@@ -17,28 +17,41 @@ import java.util.List;
 @Service
 public class UserService {
 
-    //Kanske borde göra flera services för varje repository
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> list() {
-        return userRepository.findAll();
-    }
+    @Autowired
+    private PatientRepository patientRepository;
 
-    public User newUser(User newUser) {
-        return userRepository.save(newUser);
+    @Transactional
+    public User create(User user) {
+        if (user.getType().equals(UserType.PATIENT)) {
+            Patient patient = new Patient();
+
+            //Set patient specific attributes (deep copy)
+            patient.setBirthdate(user.getPatient().getBirthdate());
+
+            patient.setUser(user);
+            user.setPatient(patient);
+
+            userRepository.save(user);
+            patientRepository.save(patient);
+        } else {
+            userRepository.save(user);
+        }
+        return user;
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
+    public User getById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public User updateUser(User newUser, Long id) {
+    public User edit(User newUser, Long id) {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setName(newUser.getName());
@@ -49,7 +62,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public String deleteUser(Long id) {
+    public String delete(Long id) {
         if(!userRepository.existsById(id)) {
             throw new UserNotFoundException(id);
         }

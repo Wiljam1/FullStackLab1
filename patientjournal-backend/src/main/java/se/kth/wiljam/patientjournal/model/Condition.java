@@ -1,5 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -7,25 +8,14 @@ import java.util.List;
 @Entity
 @Table(name = "condition_table")
 public class Condition {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private User patient;
-
-    @ManyToOne
-    @JoinColumn(name = "asserter_id")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User asserter;
 
-    @ManyToMany
-    @JoinTable(name = "condition_encounter",
-            joinColumns = @JoinColumn(name = "condition_id"),
-            inverseJoinColumns = @JoinColumn(name = "encounter_id")
-    )
-    private List<Encounter> encounters;
     private String evidenceDetail;
     private String subject;
 
@@ -43,22 +33,6 @@ public class Condition {
 
     public void setAsserter(User asserter) {
         this.asserter = asserter;
-    }
-
-    public User getPatient() {
-        return patient;
-    }
-
-    public void setPatient(User patient) {
-        this.patient = patient;
-    }
-
-    public List<Encounter> getEncounters() {
-        return encounters;
-    }
-
-    public void setEncounters(List<Encounter> encounters) {
-        this.encounters = encounters;
     }
 
     public String getEvidenceDetail() {

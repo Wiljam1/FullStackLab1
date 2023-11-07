@@ -1,5 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,27 +15,9 @@ public class User {
     private String name;
     private String email;
     private UserType type;
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private List<Observation> observations;
-
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private List<Condition> conditions;
-
-    public List<Observation> getObservations() {
-        return observations;
-    }
-
-    public void setObservations(List<Observation> observations) {
-        this.observations = observations;
-    }
-
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
-    }
+    @OneToOne(mappedBy = "user")
+    @JsonManagedReference
+    private Patient patient;
 
     public UserType getType() {
         return type;
@@ -74,5 +57,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

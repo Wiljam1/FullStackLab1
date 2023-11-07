@@ -31,24 +31,22 @@ public class ConditionService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public Condition updateCondition(Condition condition, Long id) {
-        return conditionRepository.findById(id)
-                .map(con -> {
-                    con.setAsserter(condition.getAsserter());
-                    con.setEncounters(condition.getEncounters());
-                    con.setPatient(condition.getPatient());
-                    con.setSubject(condition.getSubject());
-                    con.setEvidenceDetail(condition.getEvidenceDetail());
-                    return conditionRepository.save(con);
-                })
-                .orElseThrow(() -> new UserNotFoundException(id));
-    }
-
-    public String deleteCondition(Long id) {
-        if(!conditionRepository.existsById(id)) {
-            throw new UserNotFoundException(id);
-        }
-        conditionRepository.deleteById(id);
-        return "Condition with id " + id + " has been deleted sucessfully!";
-    }
+//    public Condition updateCondition(Condition condition, Long id) {
+//        return conditionRepository.findById(id)
+//                .map(con -> {
+//                    con.setAsserter(condition.getAsserter());
+//                    con.setSubject(condition.getSubject());
+//                    con.setEvidenceDetail(condition.getEvidenceDetail());
+//                    return conditionRepository.save(con);
+//                })
+//                .orElseThrow(() -> new UserNotFoundException(id));
+//    }
+//
+//    public String deleteCondition(Long id) {
+//        if(!conditionRepository.existsById(id)) {
+//            throw new UserNotFoundException(id);
+//        }
+//        conditionRepository.deleteById(id);
+//        return "Condition with id " + id + " has been deleted sucessfully!";
+//    }
 }

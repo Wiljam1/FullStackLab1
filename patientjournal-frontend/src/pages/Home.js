@@ -19,11 +19,11 @@ export default function Home() {
         setUsers(result.data);
     }
 
-    /*
     const deleteUser = async (id) => {
         await axios.delete(`http://localhost:8080/user/${id}`)
         loadUsers()
     } 
+    /*
     //Edit + Delete button
     <Link className='btn btn-outline-primary mx-2' to={`/edituser/${user.id}`}>Edit</Link>
         <button 

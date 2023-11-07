@@ -11,7 +11,7 @@ import se.kth.wiljam.patientjournal.repository.PatientRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
-
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -70,4 +70,25 @@ public class UserService {
         return "User with id " + id + " has been deleted sucessfully!";
     }
 
+    public User checkValidLogin(String userName, String password) {
+        User user = findByUserName(userName);
+        if (user == null){
+            throw new NoSuchElementException();
+        }
+        if (password.equals(user.getPassword())){
+            return user;
+        }
+        return null;
+    }
+
+    //TODO: very ineffective so should get rewritten
+    private User findByUserName(String userName) {
+        List<User> users = userRepository.findAll();
+        for (User user: users){
+            if (user.getUsername().equals(userName)){
+                return user;
+            }
+        }
+        return null;
+    }
 }

@@ -14,6 +14,7 @@ public class User {
     private String username;
     private String name;
     private String email;
+    private String password;
     private UserType type;
     @OneToOne(mappedBy = "user")
     @JsonManagedReference
@@ -66,4 +67,7 @@ public class User {
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
+    public String getPassword() {return password;}
+
+    public void setPassword(String password) {this.password = password;}
 }

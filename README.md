@@ -27,7 +27,9 @@ Enklast att ha frontend öppet i Visual Studio Code och backend öppet i Intelli
 
 STARTA FRONT END: "npm start" i terminal i mappen "patientjournal-front". Kanske behöver skriva "npm install" först.
 
-STARTA BACK END: Starta som vanligt i IntelliJ
+STARTA BACK END: Starta som vanligt i IntelliJ.
+
+STARTA MED DOCKER: "docker compose up" i backend och "docker compose up --build" i frontend.
 
 
 Frontend körs på: http://localhost:3000/

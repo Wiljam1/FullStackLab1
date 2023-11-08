@@ -1,5 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,35 +9,12 @@ public class Observation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "encounter_id")
-    private Encounter encounter;
-
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User performer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id")
-    private User patient;
 
     private String subject;
     private String basedOn;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Encounter getEncounter() {
-        return encounter;
-    }
-
-    public void setEncounter(Encounter encounter) {
-        this.encounter = encounter;
-    }
 
     public User getPerformer() {
         return performer;
@@ -46,12 +24,12 @@ public class Observation {
         this.performer = performer;
     }
 
-    public User getPatient() {
-        return patient;
+    public Long getId() {
+        return id;
     }
 
-    public void setPatient(User patient) {
-        this.patient = patient;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSubject() {

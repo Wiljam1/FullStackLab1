@@ -7,6 +7,7 @@ import se.kth.wiljam.patientjournal.model.Observation;
 import se.kth.wiljam.patientjournal.model.User;
 import se.kth.wiljam.patientjournal.repository.EncounterRepository;
 import se.kth.wiljam.patientjournal.repository.ObservationRepository;
+import se.kth.wiljam.patientjournal.repository.PatientRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
@@ -21,17 +22,15 @@ public class ObservationService {
     private UserRepository userRepository;
     @Autowired
     private EncounterRepository encounterRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
     public Observation create(Observation observation) {
-        Long eId = observation.getEncounter().getId();
         Long performId = observation.getPerformer().getId();
-        Long patientId = observation.getPatient().getId();
-        observation.setEncounter(encounterRepository.findById(eId)
-                .orElseThrow(() -> new UserNotFoundException(eId)));
+
         observation.setPerformer(userRepository.findById(performId)
                 .orElseThrow(() -> new UserNotFoundException(performId)));
-        observation.setPatient(userRepository.findById(patientId)
-                .orElseThrow(() -> new UserNotFoundException(patientId)));
+
         return observationRepository.save(observation);
     }
 

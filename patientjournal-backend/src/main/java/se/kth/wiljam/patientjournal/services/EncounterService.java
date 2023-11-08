@@ -3,12 +3,8 @@ package se.kth.wiljam.patientjournal.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Encounter;
-import se.kth.wiljam.patientjournal.model.Observation;
-import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.repository.EncounterRepository;
-import se.kth.wiljam.patientjournal.repository.ObservationRepository;
-import se.kth.wiljam.patientjournal.repository.UserRepository;
+import se.kth.wiljam.patientjournal.model.*;
+import se.kth.wiljam.patientjournal.repository.*;
 
 import java.util.List;
 
@@ -23,16 +19,24 @@ public class EncounterService {
     private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private PatientService patientService;
 
-    public Encounter create(Encounter encounter) {
+    @Autowired
+    private PatientEncounterRepository patientEncounterRepository;
+
+
+    public Encounter create(Encounter encounter, Long patientId) {
         Long practitionerId = encounter.getPractitioner().getId();
-        Long patientId = encounter.getPatient().getId();
-        encounter.setPractitioner(userRepository.findById(practitionerId)
-                .orElseThrow(() -> new UserNotFoundException(practitionerId)));
-        encounter.setPatient(userRepository.findById(patientId)
-                .orElseThrow(() -> new UserNotFoundException(patientId)));
-        return encounterRepository.save(encounter);
+        encounter.setPractitioner(userService.getById(practitionerId));
+        Encounter createdEncounter = encounterRepository.save(encounter);
+
+        Patient patient = patientService.getById(patientId);
+        PatientEncounter patientEncounter = new PatientEncounter();
+        patientEncounter.setPatient(patient);
+        patientEncounter.setEncounter(createdEncounter);
+        patientEncounterRepository.save(patientEncounter);
+
+        return createdEncounter;
     }
 
     public List<Encounter> getAll() {

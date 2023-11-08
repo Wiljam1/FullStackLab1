@@ -27,6 +27,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
+
 ################################################################################
 # Create a stage for building the application.
 FROM deps as build
@@ -52,7 +53,7 @@ FROM base as final
 ENV NODE_ENV production
 
 # Run the application as a non-root user.
-USER node
+USER root
 
 # Copy package.json so that package manager commands can be used.
 COPY package.json .

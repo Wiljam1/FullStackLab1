@@ -1,4 +1,4 @@
-import axios from 'axios';
+//import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ export default function Login() {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const result = await axios.post("http://localhost:8080/login", loginData.username, loginData.password);
+        //const result = await axios.post("http://localhost:8080/login", loginData.username, loginData.password);
 
         //result can be null here
         //do something with the result here

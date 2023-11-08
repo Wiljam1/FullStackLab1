@@ -11,7 +11,7 @@ export default function Home() {
 
     useEffect(()=> {
         loadUsers();
-        console.log("Information loaded")
+        console.log("Information loaded" + id)
     }, []);
 
     const loadUsers=async()=>{
@@ -49,7 +49,7 @@ export default function Home() {
 
 {
     users.map((user, index) => (
-        <tr>
+        <tr key={user.id}>
       <th scope="row" key={index}>{index+1}</th>
       <td>{user.name}</td>
       <td>{user.username}</td>

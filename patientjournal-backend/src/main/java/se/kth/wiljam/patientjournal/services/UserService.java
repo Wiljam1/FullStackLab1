@@ -85,6 +85,10 @@ public class UserService {
         }
     }
 
+    public List<User> getUsersWithPatientIdNotNull() {
+        return userRepository.findByPatientProfileIsNotNull();
+    }
+
     //TODO: very ineffective so should get rewritten
     private User findByUserName(String userName) {
         List<User> users = userRepository.findAll();

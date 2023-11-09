@@ -31,8 +31,9 @@ export default function Login() {
             const response = await axios.post("http://localhost:8080/login", user);
 
             if (response.status === 200) {
-                //localStorage.removeItem('user')
-                //localStorage.setItem('user', JSON.stringify(response.data));
+                //sessionStorage.removeItem('user')
+                sessionStorage.setItem('user', JSON.stringify(response.data));
+
                 setUser({
                     username: "",
                     password: ""

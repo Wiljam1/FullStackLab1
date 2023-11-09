@@ -7,8 +7,10 @@ import AddUser from './users/AddUser';
 import EditUser from './users/EditUser';
 import ViewUser from './users/ViewUser';
 import Login from "./users/Login";
+import AddObservation from "./users/AddObservation";
 import React from 'react';
 import AddObservation from "./users/AddObservation";
+
 
 function App() {
   return (
@@ -24,8 +26,7 @@ function App() {
         <Route exact path="/addobservation" element={<AddObservation />} />
       </Routes>
       </Router>
-  
-      
+ 
     </div>
   );
 }

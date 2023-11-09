@@ -39,9 +39,8 @@ public class UserService {
 //                break;
 //            default:
 //        }
-
-        userRepository.save(user);
-        return user;
+        
+        return userRepository.save(user);
     }
 
 

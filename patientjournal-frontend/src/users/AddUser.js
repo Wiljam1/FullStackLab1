@@ -10,12 +10,13 @@ export default function AddUser() {
         name:"",
         username:"",
         email:"",
+        password:"",
         type:"DOCTOR",
         observations: [],
         conditions: [],
     })
 
-    const{name, username, email, type} = user
+    const{name, username, email, password, type} = user
 
     const onInputChange = (e) =>{
 
@@ -67,11 +68,24 @@ export default function AddUser() {
                         E-mail
                     </label>
                     <input 
-                    type = {"text"} 
+                    type = {"email"}
                     className='form-control' 
                     placeholder='Enter your e-mail address' 
                     name = "email"
                     value={email}
+                    onChange={(e) => onInputChange(e)}
+                    />
+                </div>
+                <div className='mb-3'>
+                    <label htmlFor='password' className='form-label'>
+                        password
+                    </label>
+                    <input 
+                    type = {"password"} 
+                    className='form-control' 
+                    placeholder='Enter your password' 
+                    name = "password"
+                    value={password}
                     onChange={(e) => onInputChange(e)}
                     />
                 </div>

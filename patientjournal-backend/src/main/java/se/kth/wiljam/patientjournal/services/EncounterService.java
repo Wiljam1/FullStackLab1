@@ -6,6 +6,8 @@ import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
 import se.kth.wiljam.patientjournal.model.*;
 import se.kth.wiljam.patientjournal.repository.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,22 +23,10 @@ public class EncounterService {
     @Autowired
     private PatientService patientService;
 
-    @Autowired
-    private PatientEncounterRepository patientEncounterRepository;
-
 
     public Encounter create(Encounter encounter, Long patientId) {
-        Long practitionerId = encounter.getPractitioner().getId();
-        encounter.setPractitioner(userService.getById(practitionerId));
-        Encounter createdEncounter = encounterRepository.save(encounter);
 
-        Patient patient = patientService.getById(patientId);
-        PatientEncounter patientEncounter = new PatientEncounter();
-        patientEncounter.setPatient(patient);
-        patientEncounter.setEncounter(createdEncounter);
-        patientEncounterRepository.save(patientEncounter);
-
-        return createdEncounter;
+        return null;
     }
 
     public List<Encounter> getAll() {
@@ -47,6 +37,7 @@ public class EncounterService {
         return encounterRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id)); //TODO: Change exception
     }
+
 
 //    public Observation update(Observation newUser, Long id) {
 //        return observationRepository.findById(id)
@@ -60,11 +51,14 @@ public class EncounterService {
 //    }
 
     public String delete(Long id) {
-        if(!encounterRepository.existsById(id)) {
+        if (!encounterRepository.existsById(id)) {
             throw new UserNotFoundException(id); //TODO: Change exception
         }
         encounterRepository.deleteById(id);
         return "Observation with id " + id + " has been deleted sucessfully!";
     }
 
+    public List<Encounter> getPatientEncounters(Long patientId) {
+        return null;
+    }
 }

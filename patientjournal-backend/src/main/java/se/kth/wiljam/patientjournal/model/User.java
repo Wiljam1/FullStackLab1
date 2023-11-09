@@ -1,5 +1,7 @@
 package se.kth.wiljam.patientjournal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -16,9 +18,21 @@ public class User {
     private String email;
     private String password;
     private UserType type;
-    @OneToOne(mappedBy = "user")
-    @JsonManagedReference
-    private Patient patient;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    private Doctor doctorProfile;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    private Patient patientProfile;
+
+//    public Long getDoctorId() {
+//        return doctorProfile.getId();
+//    }
+//
+//    public Long getPatientId() {
+//        return patientProfile.getId();
+//    }
 
     public UserType getType() {
         return type;
@@ -52,6 +66,8 @@ public class User {
         this.name = name;
     }
 
+
+
     public String getEmail() {
         return email;
     }
@@ -60,13 +76,22 @@ public class User {
         this.email = email;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public Doctor getDoctorProfile() {
+        return doctorProfile;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setDoctorProfile(Doctor doctorProfile) {
+        this.doctorProfile = doctorProfile;
     }
+
+    public Patient getPatientProfile() {
+        return patientProfile;
+    }
+
+    public void setPatientProfile(Patient patientProfile) {
+        this.patientProfile = patientProfile;
+    }
+
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}

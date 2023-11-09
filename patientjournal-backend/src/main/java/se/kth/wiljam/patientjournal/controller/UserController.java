@@ -33,7 +33,7 @@ public class UserController {
     }
 
     // id is now in the URL! ex: http://localhost:8080/encounter?patientId=1
-    @PostMapping("/encounter")
+    @PostMapping("/encounter/create")
     Encounter createEncounter(@RequestBody Encounter encounter, @RequestParam Long patientId) {
         return encounterService.create(encounter, patientId);
     }
@@ -58,6 +58,11 @@ public class UserController {
     @GetMapping("user/{id}")
     User getUserById(@PathVariable Long id) {
         return userService.getById(id);
+    }
+
+    @GetMapping("encounter/{id}/")
+    List<Encounter> getPatientEncounters(@PathVariable Long id) {
+        return encounterService.getPatientEncounters(id);
     }
 
     @PutMapping("user/{id}")

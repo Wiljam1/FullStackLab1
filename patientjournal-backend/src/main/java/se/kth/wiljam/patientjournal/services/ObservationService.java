@@ -3,7 +3,9 @@ package se.kth.wiljam.patientjournal.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
+import se.kth.wiljam.patientjournal.model.Doctor;
 import se.kth.wiljam.patientjournal.model.Observation;
+import se.kth.wiljam.patientjournal.model.Patient;
 import se.kth.wiljam.patientjournal.model.User;
 import se.kth.wiljam.patientjournal.repository.EncounterRepository;
 import se.kth.wiljam.patientjournal.repository.ObservationRepository;
@@ -19,17 +21,20 @@ public class ObservationService {
     private ObservationRepository observationRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
-    private EncounterRepository encounterRepository;
+    private PatientService patientService;
     @Autowired
-    private PatientRepository patientRepository;
+    private DoctorService doctorService;
 
     public Observation create(Observation observation) {
-        Long performId = observation.getPerformer().getId();
-
-        observation.setPerformer(userRepository.findById(performId)
-                .orElseThrow(() -> new UserNotFoundException(performId)));
+//        Long performId = observation.getPerformer().getId();
+//        Long patientId = observation.getPatient().getId();
+//        Doctor doctor = doctorService.getById(performId);
+//        Patient patient = patientService.getById(patientId);
+//
+//        observation.setPerformer(doctor);
+//        observation.setPatient(patient);
 
         return observationRepository.save(observation);
     }

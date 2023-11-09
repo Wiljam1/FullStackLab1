@@ -4,9 +4,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Patient;
-import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.model.UserType;
+import se.kth.wiljam.patientjournal.model.*;
+import se.kth.wiljam.patientjournal.repository.DoctorRepository;
 import se.kth.wiljam.patientjournal.repository.PatientRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
@@ -22,25 +21,29 @@ public class UserService {
 
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
 
-    @Transactional
+    //@Transactional
     public User create(User user) {
-        if (user.getType().equals(UserType.PATIENT)) {
-            Patient patient = new Patient();
+//        switch (user.getType()) {
+//            case PATIENT:
+//                Patient patient = new Patient();
+//                patient.setBirthdate(user.getPatientProfile().getBirthdate());
+//                patientRepository.save(patient);
+//                break;
+//            case DOCTOR:
+//                Doctor doctor = new Doctor();
+//                doctor.setFavoriteFruit(user.getDoctorProfile().getFavoriteFruit());
+//                doctorRepository.save(doctor);
+//                break;
+//            default:
+//        }
 
-            //Set patient specific attributes (deep copy)
-            patient.setBirthdate(user.getPatient().getBirthdate());
-
-            patient.setUser(user);
-            user.setPatient(patient);
-
-            userRepository.save(user);
-            patientRepository.save(patient);
-        } else {
-            userRepository.save(user);
-        }
+        userRepository.save(user);
         return user;
     }
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

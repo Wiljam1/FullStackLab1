@@ -73,15 +73,16 @@ public class UserService {
         return "User with id " + id + " has been deleted sucessfully!";
     }
 
-    public User checkValidLogin(String userName, String password) {
-        User user = findByUserName(userName);
-        if (user == null){
+    public User checkValidLogin(User user) {
+        if (user == null) return null;
+
+        User fullUser = findByUserName(user.getUsername());
+
+        if (fullUser != null && user.getPassword().equals(fullUser.getPassword())) {
+            return fullUser;
+        } else {
             throw new NoSuchElementException();
         }
-        if (password.equals(user.getPassword())){
-            return user;
-        }
-        return null;
     }
 
     //TODO: very ineffective so should get rewritten

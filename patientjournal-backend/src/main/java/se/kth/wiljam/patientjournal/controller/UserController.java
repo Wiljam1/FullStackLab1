@@ -1,6 +1,8 @@
 package se.kth.wiljam.patientjournal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.kth.wiljam.patientjournal.model.Encounter;
 import se.kth.wiljam.patientjournal.model.Observation;
@@ -12,6 +14,7 @@ import se.kth.wiljam.patientjournal.services.PatientService;
 import se.kth.wiljam.patientjournal.services.UserService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -75,8 +78,13 @@ public class UserController {
         return userService.delete(id);
     }
 
-    @GetMapping("/login")
-    User checkLogin(@RequestParam String userName, @RequestParam String password) {
-        return userService.checkValidLogin(userName, password);
+    @PostMapping("/login")
+    public ResponseEntity<User> checkLogin(@RequestBody User user) {
+        try {
+            User validUser = userService.checkValidLogin(user);
+            return ResponseEntity.ok(validUser);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }

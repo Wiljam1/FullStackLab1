@@ -1,30 +1,50 @@
 //import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 export default function Login() {
     let navigate = useNavigate();
 
-    const [loginData, setLoginData] = useState({
-        username: '',
-        password: '',
-    });
 
-    const { username, password } = loginData;
+    const [user, setUser] = useState({
+        name:"",
+        username:"",
+        email:"",
+        type:"DOCTOR",
+        password: "",
+        observations: [],
+        conditions: [],
+    })
+
+    const { username, password } = user;
+    const [error, setError] = useState(null);
 
     const onInputChange = (e) => {
-        setLoginData({ ...loginData, [e.target.name]: e.target.value });
+        setUser({ ...user, [e.target.name]: e.target.value });
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log("test");
+        try {
+            const response = await axios.post("http://localhost:8080/login", user);
 
-        //const result = await axios.post("http://localhost:8080/login", loginData.username, loginData.password);
-
-        //result can be null here
-        //do something with the result here
-
-        navigate('/Home');
+            if (response.status === 200) {
+                //localStorage.removeItem('user')
+                //localStorage.setItem('user', JSON.stringify(response.data));
+                setUser({
+                    username: "",
+                    password: ""
+                });
+                navigate('/');
+            } else {
+                setError("Invalid username or password");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("Unexpected error occurred");
+        }
     };
 
     return (

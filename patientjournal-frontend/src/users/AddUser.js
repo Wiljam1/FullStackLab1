@@ -14,11 +14,33 @@ export default function AddUser() {
     profile: {},
   });
 
-  const { name, username, email, type, password } = user; 
+  const { name, username, email, type, password, custom } = user;
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
+
+  // Function to determine the custom field label and placeholder based on user type
+  const getCustomFieldInfo = (type) => {
+    if (type === 'DOCTOR') {
+      return {
+        label: 'Enter your favorite fruit',
+        placeholder: 'Favorite Fruit',
+      };
+    } else if (type === 'PATIENT') {
+      return {
+        label: 'Enter your birthdate',
+        placeholder: 'Birthdate',
+      };
+    } else {
+      return {
+        label: 'Custom Field',
+        placeholder: 'Enter custom data',
+      };
+    }
+  };
+
+  const customFieldInfo = getCustomFieldInfo(type);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +50,8 @@ export default function AddUser() {
       email,
       password,
       type,
-      ...(type === 'DOCTOR' ? { doctorProfile: { favoriteFruit: 'Apple' } } : {}),
-      ...(type === 'PATIENT' ? { patientProfile: { birthdate: '1995-05-15' } } : {}),
+      ...(type === 'DOCTOR' ? { doctorProfile: { favoriteFruit: custom } } : {}),
+      ...(type === 'PATIENT' ? { patientProfile: { birthdate: custom } } : {}),
     };
 
     console.log('Form Data:', userData);
@@ -110,6 +132,19 @@ export default function AddUser() {
                 <option value="PATIENT">PATIENT</option>
                 <option value="STAFF">STAFF</option>
               </select>
+            </div>
+            <div className='mb-3'>
+              <label htmlFor='custom' className='form-label'>
+                {customFieldInfo.label}
+              </label>
+              <input
+                type="text"
+                className='form-control'
+                placeholder={customFieldInfo.placeholder}
+                name="custom"
+                value={custom}
+                onChange={(e) => onInputChange(e)}
+              />
             </div>
             <button type='submit' className='btn btn-outline-primary'>
               Submit

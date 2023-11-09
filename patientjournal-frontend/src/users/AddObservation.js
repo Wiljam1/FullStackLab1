@@ -1,26 +1,52 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddObservation() {
     let navigate = useNavigate();
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    const [users, setUsers] = useState([]);
+    const [selectedPatient, setSelectedPatient] = useState(null);
+
     const [observation, setObservation] = useState({
-        //should maybe be something else? or add something
-        performer: storedUser,
-        //patient:
+        performer: {},
+        patient: {},
         subject: "",
         basedOn: ""
     });
 
-    const { performer, subject, basedOn } = observation;
+    const { performer, patient, subject, basedOn } = observation;
+
+    useEffect(() => {
+        const loadUsers = async () => {
+            const result = await axios.get('http://localhost:8080/users');
+            setUsers(result.data);
+        };
+        loadUsers();
+    }, []);
 
     const onInputChange = (e) => {
         setObservation({ ...observation, [e.target.name]: e.target.value });
     };
 
+    const onSelectUser = (user) => {
+        setSelectedPatient(user);
+        const jsonData = {
+            performer: {
+                id: storedUser.doctorProfile.id
+            },
+            patient: {
+                id: user.patientProfile.id
+            },
+            subject: observation.subject,
+            basedOn: observation.basedOn
+        };
+        setObservation(jsonData);
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(observation);
         await axios.post("http://localhost:8080/observation", observation);
         navigate("/");
     };
@@ -31,6 +57,20 @@ export default function AddObservation() {
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
                     <h2 className="text-center m-4">Add Observation</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
+                        <div>
+                            <label htmlFor="patient">Select Patient:</label>
+                            <select
+                                id="patient"
+                                onChange={(e) => onSelectUser(JSON.parse(e.target.value))}
+                            >
+                                <option value="">Select a patient</option>
+                                {users.map((user) => (
+                                    <option key={user.id} value={JSON.stringify(user)}>
+                                        {user.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         <div className="mb-3">
                             <label htmlFor="Performer" className="form-label">
                                 Performer
@@ -38,9 +78,8 @@ export default function AddObservation() {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={performer}
                                 name="performer"
-                                value={performer}
+                                value={storedUser.name}
                                 readOnly
                             />
                         </div>

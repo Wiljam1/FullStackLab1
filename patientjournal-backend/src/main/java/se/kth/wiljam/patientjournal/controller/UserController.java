@@ -58,6 +58,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/patients")
+    List<User> getAllPatients() {
+        return userService.getUsersWithPatientIdNotNull();
+    }
+
     @GetMapping("user/{id}")
     User getUserById(@PathVariable Long id) {
         return userService.getById(id);

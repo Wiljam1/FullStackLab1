@@ -19,29 +19,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PatientRepository patientRepository;
-    @Autowired
-    private DoctorRepository doctorRepository;
-
     //@Transactional
     public User create(User user) {
-//        switch (user.getType()) {
-//            case PATIENT:
-//                Patient patient = new Patient();
-//                patient.setBirthdate(user.getPatientProfile().getBirthdate());
-//                patientRepository.save(patient);
-//                break;
-//            case DOCTOR:
-//                Doctor doctor = new Doctor();
-//                doctor.setFavoriteFruit(user.getDoctorProfile().getFavoriteFruit());
-//                doctorRepository.save(doctor);
-//                break;
-//            default:
-//        }
-
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
 
@@ -54,6 +34,23 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    public User checkValidLogin(User user) {
+        if (user == null) return null;
+
+        User fullUser = userRepository.findByUsername(user.getUsername());
+        if (fullUser != null && user.getPassword().equals(fullUser.getPassword())) {
+            System.out.println("Logging in as username: " + fullUser.getUsername());
+            return fullUser;
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<User> getUsersWithPatientIdNotNull() {
+        return userRepository.findByPatientProfileIsNotNull();
+    }
+
+    /* --- UNUSED METHODS
     public User edit(User newUser, Long id) {
         return userRepository.findById(id)
                 .map(user -> {
@@ -72,27 +69,5 @@ public class UserService {
         userRepository.deleteById(id);
         return "User with id " + id + " has been deleted sucessfully!";
     }
-
-    public User checkValidLogin(User user) {
-        if (user == null) return null;
-
-        User fullUser = findByUserName(user.getUsername());
-
-        if (fullUser != null && user.getPassword().equals(fullUser.getPassword())) {
-            return fullUser;
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
-
-    //TODO: very ineffective so should get rewritten
-    private User findByUserName(String userName) {
-        List<User> users = userRepository.findAll();
-        for (User user: users){
-            if (user.getUsername().equals(userName)){
-                return user;
-            }
-        }
-        return null;
-    }
+    */
 }

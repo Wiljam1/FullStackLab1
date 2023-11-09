@@ -34,6 +34,10 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public User checkValidLogin(User user) {
         if (user == null) return null;
 

@@ -35,11 +35,12 @@ public class UserController {
         return userService.create(user);
     }
 
+    // TODO: Implement encounter + condition after every other function done.
     // id is now in the URL! ex: http://localhost:8080/encounter?patientId=1
-    @PostMapping("/encounter/create")
-    Encounter createEncounter(@RequestBody Encounter encounter, @RequestParam Long patientId) {
-        return encounterService.create(encounter, patientId);
-    }
+//    @PostMapping("/encounter/create")
+//    Encounter createEncounter(@RequestBody Encounter encounter, @RequestParam Long patientId) {
+//        return encounterService.create(encounter, patientId);
+//    }
 
 //    @PostMapping("/encounter")
 //    Encounter createEncounter(@RequestBody Encounter encounter) {
@@ -68,19 +69,14 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @GetMapping("user/{username}")
+    User getUserByUsername(@PathVariable String username) {
+        return userService.getByUsername(username);
+    }
+
     @GetMapping("encounter/{id}/")
     List<Encounter> getPatientEncounters(@PathVariable Long id) {
         return encounterService.getPatientEncounters(id);
-    }
-
-    @PutMapping("user/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-        return userService.edit(newUser, id);
-    }
-
-    @DeleteMapping("/user/{id}/")
-    String deleteUser(@PathVariable Long id) {
-        return userService.delete(id);
     }
 
     @PostMapping("/login")
@@ -92,4 +88,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    /* --- UNUSED METHODS
+        @PutMapping("user/{id}")
+    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
+        return userService.edit(newUser, id);
+    }
+
+    @DeleteMapping("/user/{id}/")
+    String deleteUser(@PathVariable Long id) {
+        return userService.delete(id);
+    }
+     */
 }

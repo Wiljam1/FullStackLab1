@@ -1,0 +1,20 @@
+Implementerat i backend;
+- [x] Inloggning
+- [x] Skapande av användare
+- [ ] Skapa övrig personal (STAFF)
+- [x] Skapa ny patient notering (observation)
+- [x] Se all information om enskild patient
+- [x] Se all information om sig själv
+- [ ] Skicka meddelande till andra användare
+- [ ] Svara på meddelanden
+
+Implementerat i frontend;
+- [x] Inloggning
+- [x] Skapande av användare
+- [ ] Skapa användare ()
+- [ ] Skapa övrig personal (STAFF)
+- [x] Skapa ny patient notering (observation)
+- [x] Se all information om enskild patient
+- [x] Se all information om sig själv
+- [ ] Skicka meddelande till andra användare
+- [ ] Svara på meddelanden

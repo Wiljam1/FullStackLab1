@@ -17,9 +17,15 @@ export default function AddObservation() {
 
     const { performer, patient, subject, basedOn } = observation;
 
+    const isAuthorized = storedUser && storedUser.doctorProfile;
+
     useEffect(() => {
+        if (!isAuthorized) {
+            return navigate('/'); 
+        }
+        
         const loadUsers = async () => {
-            const result = await axios.get('http://localhost:8080/users');
+            const result = await axios.get('http://localhost:8080/patients');
             setUsers(result.data);
         };
         loadUsers();

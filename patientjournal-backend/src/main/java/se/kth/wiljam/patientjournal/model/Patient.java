@@ -24,6 +24,7 @@ public class Patient {
 
 
     @OneToMany(mappedBy = "patient")
+    @JsonManagedReference(value = "patient-observations")
     private Set<Observation> observations;
 
     @OneToMany

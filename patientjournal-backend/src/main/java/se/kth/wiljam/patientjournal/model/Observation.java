@@ -6,8 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(
-        name = "OBSERVATIONS",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"patient_id", "doctor_id", "subject"})}
+        name = "OBSERVATIONS"
 )
 public class Observation {
     @Id
@@ -15,11 +14,11 @@ public class Observation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
+    @JsonBackReference(value = "doctor-observations")
     private Doctor performer;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JsonBackReference(value = "patient-observations")
     private Patient patient;
 
     private String subject;

@@ -22,6 +22,7 @@ public class Doctor {
     private User user;
 
     @OneToMany(mappedBy = "performer")
+    @JsonManagedReference(value = "doctor-observations")
     private Set<Observation> observations;
 
     public Long getId() {

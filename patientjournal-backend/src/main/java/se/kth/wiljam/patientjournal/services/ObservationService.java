@@ -27,16 +27,13 @@ public class ObservationService {
     @Autowired
     private DoctorService doctorService;
 
-    public Observation create(Observation observation) {
-//        Long performId = observation.getPerformer().getId();
-//        Long patientId = observation.getPatient().getId();
-//        Doctor doctor = doctorService.getById(performId);
-//        Patient patient = patientService.getById(patientId);
-//
-//        observation.setPerformer(doctor);
-//        observation.setPatient(patient);
 
-        return observationRepository.save(observation);
+    public Observation create(Observation observation) {
+        try {
+            return observationRepository.save(observation);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Observation: " + observation);
+        }
     }
 
     public List<Observation> getAll() {
@@ -58,13 +55,13 @@ public class ObservationService {
 //                })
 //                .orElseThrow(() -> new UserNotFoundException(id));
 //    }
-
-    public String delete(Long id) {
-        if(!observationRepository.existsById(id)) {
-            throw new UserNotFoundException(id); //TODO: Change exception
-        }
-        observationRepository.deleteById(id);
-        return "Observation with id " + id + " has been deleted sucessfully!";
-    }
+//
+//    public String delete(Long id) {
+//        if(!observationRepository.existsById(id)) {
+//            throw new UserNotFoundException(id); //TODO: Change exception
+//        }
+//        observationRepository.deleteById(id);
+//        return "Observation with id " + id + " has been deleted sucessfully!";
+//    }
 
 }

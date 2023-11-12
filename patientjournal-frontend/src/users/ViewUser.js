@@ -18,12 +18,13 @@ export default function ViewUser() {
     const { id } = useParams();
 
     useEffect(() => {
+        /*
         const isAllowed = storedUser?.id === id || storedUser?.type === 'DOCTOR';
 
         if (!isAllowed) {
             console.log("Not authorized, storedId:" + storedUser?.id + " and url id: " + `${id}`);
             navigate('/');
-        }
+        }*/
 
         loadUser();
     }, [id, navigate, storedUser]);

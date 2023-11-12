@@ -41,44 +41,43 @@ export default function Navbar() {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                
                 {isAuthenticated ? (
-                    <>
-                    <Link className='btn btn-outline-light' to={`/viewuser/${storedUser.id}`}>
-                        View your profile
-                    </Link>
-                    <Link className='btn btn-outline-light' to="/messages">
-                        Messages
-                    </Link>
-                    {isDoctor ? (
                         <>
-                        <Link className='btn btn-outline-light' to="/patients">
-                            View patients
-                        </Link>
-                        <Link className='btn btn-outline-light' to="/addobservation">
-                            Add Observation
-                        </Link>
+                            <Link className='btn btn-outline-light' to={`/viewuser/${storedUser.id}`}>
+                                View your profile
+                            </Link>
+                            <Link className='btn btn-outline-light' to="/messages">
+                                Messages
+                            </Link>
+                            {storedUser.type === 'DOCTOR' ? (
+                                <>
+                                    <Link className='btn btn-outline-light' to="/patients">
+                                        View patients
+                                    </Link>
+                                    <Link className='btn btn-outline-light' to="/addobservation">
+                                        Add Observation
+                                    </Link>
+                                </>
+                            ) : storedUser.type === 'STAFF' ? (
+                                <Link className='btn btn-outline-light' to="/addobservation">
+                                    Add Observation
+                                </Link>
+                            ) : null}
+                            <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
+                            <button className='btn btn-outline-light' onClick={handleLogout}>
+                                Logout
+                            </button>
                         </>
                     ) : (
-                        <Link className='btn btn-outline-light' to="/addobservation">
-                        Add Observation
-                        </Link>
+                        <>
+                            <Link className='btn btn-outline-light' to="/login">
+                                Login
+                            </Link>
+                            <Link className='btn btn-outline-light' to="/register">
+                                Register
+                            </Link>
+                        </>
                     )}
-                    <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
-                    <button className='btn btn-outline-light' onClick={handleLogout}>
-                        Logout
-                    </button>
-                    </>
-                ) : (
-                    <>
-                    <Link className='btn btn-outline-light' to="/login">
-                        Login
-                    </Link>
-                    <Link className='btn btn-outline-light' to="/register">
-                        Register
-                    </Link>
-                    </>
-                )}
             </div>
         </nav>
     </div>

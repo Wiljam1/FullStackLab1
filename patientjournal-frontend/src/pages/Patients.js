@@ -5,8 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Patients() {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    const isAllowed = storedUser?.type === 'DOCTOR';
 
     useEffect(() => {
+        if (!isAllowed) {
+            console.log("Not authorized, storedId:" + storedUser?.id + " and url id: " + `${id}`);
+            navigate('/');
+        }
         loadUsers();
     }, []);
 
@@ -20,10 +26,9 @@ export default function Patients() {
         }
     };
 
-    const storedUser = JSON.parse(sessionStorage.getItem('user'));
-    if (storedUser?.type !== 2) { // check if current user is a doctor
-        navigate('/');
-    }
+    
+
+        
  
   return (
     <div className='container'>

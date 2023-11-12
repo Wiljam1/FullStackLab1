@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function AddObservation() {
@@ -17,19 +17,20 @@ export default function AddObservation() {
 
     const { performer, patient, subject, basedOn } = observation;
 
-    const isAuthorized = storedUser && storedUser.staffProfile;
+    const isAuthorized = storedUser !== null && storedUser.staffProfile;
 
     useEffect(() => {
         if (!isAuthorized) {
-            return navigate('/'); 
+            navigate('/');
+            return;
         }
-        
+
         const loadUsers = async () => {
             const result = await axios.get('http://localhost:8080/patients');
             setUsers(result.data);
         };
         loadUsers();
-    }, []);
+    }, [isAuthorized]);
 
     const onInputChange = (e) => {
         setObservation({ ...observation, [e.target.name]: e.target.value });
@@ -63,20 +64,22 @@ export default function AddObservation() {
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
                     <h2 className="text-center m-4">Add Observation</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
-                        <div>
-                            <label htmlFor="patient">Select Patient:</label>
-                            <select
-                                id="patient"
-                                onChange={(e) => onSelectUser(JSON.parse(e.target.value))}
-                            >
-                                <option value="">Select a patient</option>
-                                {users.map((user) => (
-                                    <option key={user.id} value={JSON.stringify(user)}>
-                                        {user.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        {isAuthorized && (
+                            <div>
+                                <label htmlFor="patient">Select Patient:</label>
+                                <select
+                                    id="patient"
+                                    onChange={(e) => onSelectUser(JSON.parse(e.target.value))}
+                                >
+                                    <option value="">Select a patient</option>
+                                    {users.map((user) => (
+                                        <option key={user.id} value={JSON.stringify(user)}>
+                                            {user.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                         <div className="mb-3">
                             <label htmlFor="Performer" className="form-label">
                                 Performer
@@ -85,7 +88,7 @@ export default function AddObservation() {
                                 type="text"
                                 className="form-control"
                                 name="performer"
-                                value={storedUser.name}
+                                value={isAuthorized ? storedUser.name : ""}
                                 readOnly
                             />
                         </div>

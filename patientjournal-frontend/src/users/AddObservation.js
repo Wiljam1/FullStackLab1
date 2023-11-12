@@ -17,7 +17,7 @@ export default function AddObservation() {
 
     const { performer, patient, subject, basedOn } = observation;
 
-    const isAuthorized = storedUser && storedUser.doctorProfile;
+    const isAuthorized = storedUser && storedUser.staffProfile;
 
     useEffect(() => {
         if (!isAuthorized) {
@@ -39,7 +39,7 @@ export default function AddObservation() {
         setSelectedPatient(user);
         const jsonData = {
             performer: {
-                id: storedUser.doctorProfile.id
+                id: storedUser.staffProfile.id
             },
             patient: {
                 id: user.patientProfile.id

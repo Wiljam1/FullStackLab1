@@ -3,27 +3,27 @@ package se.kth.wiljam.patientjournal.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Doctor;
-import se.kth.wiljam.patientjournal.repository.DoctorRepository;
+import se.kth.wiljam.patientjournal.model.Staff;
+import se.kth.wiljam.patientjournal.repository.StaffRepository;
 
 import java.util.List;
 
 @Service
-public class DoctorService {
+public class StaffService {
 
     @Autowired
-    private DoctorRepository doctorRepository;
+    private StaffRepository staffRepository;
 
-    public Doctor create(Doctor patient) {
-        return doctorRepository.save(patient);
+    public Staff create(Staff staff) {
+        return staffRepository.save(staff);
     }
 
-    public List<Doctor> getAll() {
-        return doctorRepository.findAll();
+    public List<Staff> getAll() {
+        return staffRepository.findAll();
     }
 
-    public Doctor getById(Long id) {
-        return doctorRepository.findById(id)
+    public Staff getById(Long id) {
+        return staffRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 

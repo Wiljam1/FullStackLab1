@@ -1,11 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 public class User {
@@ -19,20 +14,12 @@ public class User {
     private String password;
     private UserType type;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
-    private Doctor doctorProfile;
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
+    private Staff staffProfile;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patientProfile;
-
-//    public Long getDoctorId() {
-//        return doctorProfile.getId();
-//    }
-//
-//    public Long getPatientId() {
-//        return patientProfile.getId();
-//    }
 
     public UserType getType() {
         return type;
@@ -76,12 +63,12 @@ public class User {
         this.email = email;
     }
 
-    public Doctor getDoctorProfile() {
-        return doctorProfile;
+    public Staff getStaffProfile() {
+        return staffProfile;
     }
 
-    public void setDoctorProfile(Doctor doctorProfile) {
-        this.doctorProfile = doctorProfile;
+    public void setStaffProfile(Staff staffProfile) {
+        this.staffProfile = staffProfile;
     }
 
     public Patient getPatientProfile() {

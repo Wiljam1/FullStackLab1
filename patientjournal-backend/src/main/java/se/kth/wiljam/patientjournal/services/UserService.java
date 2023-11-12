@@ -1,12 +1,9 @@
 package se.kth.wiljam.patientjournal.services;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
 import se.kth.wiljam.patientjournal.model.*;
-import se.kth.wiljam.patientjournal.repository.DoctorRepository;
-import se.kth.wiljam.patientjournal.repository.PatientRepository;
 import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
@@ -52,6 +49,10 @@ public class UserService {
 
     public List<User> getUsersWithPatientIdNotNull() {
         return userRepository.findByPatientProfileIsNotNull();
+    }
+
+    public List<User> getUsersWithStaffIdNotNull() {
+        return userRepository.findByStaffProfileIsNotNull();
     }
 
     /* --- UNUSED METHODS

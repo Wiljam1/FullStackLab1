@@ -1,22 +1,21 @@
 package se.kth.wiljam.patientjournal.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "DOCTOR")
-public class Doctor {
+@Table(name = "STAFF")
+public class Staff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String favoriteFruit;
+    private String specialty;
+
+    private boolean isDoctor;
 
     @OneToOne
     private User user;
@@ -24,6 +23,14 @@ public class Doctor {
     @OneToMany(mappedBy = "performer")
     @JsonManagedReference(value = "doctor-observations")
     private Set<Observation> observations;
+
+    public boolean isDoctor() {
+        return isDoctor;
+    }
+
+    public void setDoctor(boolean doctor) {
+        isDoctor = doctor;
+    }
 
     public Long getId() {
         return id;
@@ -33,12 +40,12 @@ public class Doctor {
         this.id = id;
     }
 
-    public String getFavoriteFruit() {
-        return favoriteFruit;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public void setFavoriteFruit(String favoriteFruit) {
-        this.favoriteFruit = favoriteFruit;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
 
     public User getUser() {

@@ -1,7 +1,6 @@
 package se.kth.wiljam.patientjournal.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +14,7 @@ public class Observation {
 
     @ManyToOne
     @JsonBackReference(value = "doctor-observations")
-    private Doctor performer;
+    private Staff performer;
 
     @ManyToOne
     @JsonBackReference(value = "patient-observations")
@@ -32,11 +31,11 @@ public class Observation {
         this.id = id;
     }
 
-    public Doctor getPerformer() {
+    public Staff getPerformer() {
         return performer;
     }
 
-    public void setPerformer(Doctor performer) {
+    public void setPerformer(Staff performer) {
         this.performer = performer;
     }
 

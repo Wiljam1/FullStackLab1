@@ -3,14 +3,8 @@ package se.kth.wiljam.patientjournal.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Doctor;
 import se.kth.wiljam.patientjournal.model.Observation;
-import se.kth.wiljam.patientjournal.model.Patient;
-import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.repository.EncounterRepository;
 import se.kth.wiljam.patientjournal.repository.ObservationRepository;
-import se.kth.wiljam.patientjournal.repository.PatientRepository;
-import se.kth.wiljam.patientjournal.repository.UserRepository;
 
 import java.util.List;
 
@@ -25,7 +19,7 @@ public class ObservationService {
     @Autowired
     private PatientService patientService;
     @Autowired
-    private DoctorService doctorService;
+    private StaffService staffService;
 
 
     public Observation create(Observation observation) {

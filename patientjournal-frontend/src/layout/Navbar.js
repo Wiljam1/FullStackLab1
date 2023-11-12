@@ -1,6 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 export default function Navbar() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isDoctor, setIsDoctor] = useState(false);
+    const navigate = useNavigate();
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+
+    useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const doctorProfile = user ? user.doctorProfile : null;
+
+        setIsAuthenticated(!!user);
+        setIsDoctor(!!doctorProfile);
+
+    }, [storedUser]);
+
+    const handleLogout = () => {
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('isDoctor');
+        setIsAuthenticated(false);
+        setIsDoctor(false);
+        navigate('/login');
+    };
+    
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -17,9 +39,25 @@ export default function Navbar() {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <Link className='btn btn-outline-light' to="/adduser">Add User</Link>
-                <Link className='btn btn-outline-light' to="/addobservation">Add Observation</Link>
-                <Link className='btn btn-outline-light' to="/login">Login</Link>
+                
+                {isAuthenticated ? (
+                        <>  
+                            <Link className='btn btn-outline-light' to={`/viewuser/${storedUser.id}`}>View your profile</Link>
+                            {isDoctor ? (
+                                <>
+                                    <Link className='btn btn-outline-light' to="/patients">View patients</Link>
+                                    <Link className='btn btn-outline-light' to="/addobservation">Add Observation</Link>
+                                </>
+                            ) : null}
+                            <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
+                            <button className='btn btn-outline-light' onClick={handleLogout}>Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link className='btn btn-outline-light' to="/login">Login</Link>
+                            <Link className='btn btn-outline-light' to="/adduser">Register</Link>
+                        </>
+                    )}
             </div>
         </nav>
     </div>

@@ -33,6 +33,9 @@ export default function Login() {
             if (response.status === 200) {
                 //sessionStorage.removeItem('user')
                 sessionStorage.setItem('user', JSON.stringify(response.data));
+                
+                const isDoctor = response.data.doctorProfile !== null;
+                sessionStorage.setItem('isDoctor', JSON.stringify(isDoctor));
 
                 setUser({
                     username: "",

@@ -71,10 +71,10 @@ public class UserController {
         return userService.getById(id);
     }
 
-//    @GetMapping("user/{username}")
-//    User getUserByUsername(@PathVariable String username) {
-//        return userService.getByUsername(username);
-//    }
+    @GetMapping("user123/{username}")
+    User getUserByUsername(@PathVariable String username) {
+        return userService.getByUsername(username);
+    }
 
     @GetMapping("encounter/{id}/")
     List<Encounter> getPatientEncounters(@PathVariable Long id) {
@@ -96,32 +96,36 @@ public class UserController {
         return messageService.create(message);
     }
 
-    @GetMapping("messages")
+    @GetMapping("/messages")
     List<Message> getAllMessages() {
         return messageService.getAllMessages();
     }
 
-    //dålig då flera konversationer kan ha samma subject
-    @GetMapping("messages/subject")
-    List<Message> getMessagesBySubject(String subject) {
-        return messageService.getAllBySubject(subject);
+    @GetMapping("/messages/by-subject")
+    List<Message> getMessagesBySubject(@RequestParam String subject) {
+        return messageService.getMessagesBySubject(subject);
     }
 
-    @GetMapping("messages/{receiver_id}{subject}")
-    List<Message> getMessagesByReceiverIdAndSubject(Message message) {
-        return messageService.getByReceiverIdAndSubject(message.getReceiver(), message.getSubject());
+    @GetMapping("/messages/{receiverUsername}")
+    List<Message> getMessagesByReceiver(
+            @PathVariable String receiverUsername) {
+
+        return messageService.getMessagesByReceiver(receiverUsername);
     }
 
-    @GetMapping("messages/{sender_id}{subject}")
-    List<Message> getMessagesBySenderIdAndSubject(Message message) {
-        return messageService.getByReceiverIdAndSubject(message.getSender(), message.getSubject());
+    @GetMapping("/messages/{senderUsername}")
+    List<Message> getMessagesBySender(
+            @PathVariable String senderUsername) {
+        return messageService.getMessagesBySender(senderUsername);
     }
 
-    //denna är bäst men finns fortfarande problem med att de kan finnas samma ämne
-    //tror att man måste kalla på denna två gånger för att få alla meddelanden. byt plats på id då.
-    @GetMapping("messages/{sender_id}{receiver_id}{subject}")
-    List<Message> getMessagesBySenderIdAndReceiverIdAndSubject(Message message) {
-        return messageService.getBySenderIdAndReceiverIdAndSubject(message.getSender(), message.getReceiver(), message.getSubject());
+    @GetMapping("/messages/{senderUsername}/{receiverUsername}/{subject}")
+    List<Message> getMessagesBySenderAndReceiverAndSubject(
+            @PathVariable String senderUsername,
+            @PathVariable String receiverUsername,
+            @PathVariable String subject) {
+
+        return messageService.getMessagesBySenderAndReceiverAndSubject(senderUsername, receiverUsername, subject);
     }
 
 

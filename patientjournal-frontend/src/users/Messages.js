@@ -4,7 +4,12 @@ import axios from 'axios';
 const MessageViewer = () => {
   const [messages, setMessages] = useState([]);
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
-  const [newMessage, setNewMessage] = useState({senderId: storedUser.id, receiverId: '', subject: '', content: '' });
+  const [newMessage, setNewMessage] = useState({
+    sender: storedUser,
+    receiverUsername: '',
+    subject: '',
+    content: '',
+  });
 
   useEffect(() => {
     axios.get('http://localhost:8080/messages')
@@ -18,12 +23,28 @@ const MessageViewer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/message', newMessage)
-      .then(response => {
-        setMessages([...messages, response.data]);
-        setNewMessage({receiverId: '', subject: '', content: '' });
-      })
-      .catch(error => console.error('Error sending message:', error));
+
+    // Fetch the user with the provided receiverUsername
+    axios.get(`http://localhost:8080/user123/${newMessage.receiverUsername}`)
+        .then(response => {
+          const receiverUser = response.data;
+
+          const messageData = {
+            sender: storedUser,
+            receiver: receiverUser,
+            subject: newMessage.subject,
+            content: newMessage.content
+          };
+
+          // Send the request to create a new message
+          axios.post('http://localhost:8080/message', messageData)
+              .then(response => {
+                setMessages([...messages, response.data]);
+                setNewMessage({ receiverUsername: '', subject: '', content: '' });
+              })
+              .catch(error => console.error('Error sending message:', error));
+        })
+        .catch(error => console.error('Error fetching user:', error));
   };
 
   return (
@@ -42,12 +63,12 @@ const MessageViewer = () => {
       <div style={styles.sendMessageContainer}>
         <h2>Send a Message</h2>
         <form onSubmit={handleSubmit} style={styles.messageForm}>
-          <label htmlFor="receiverId">Receiver ID:</label>
+          <label htmlFor="receiverUsername">Receiver Username:</label>
           <input
             type="text"
-            id="receiverId"
-            name="receiverId"
-            value={newMessage.receiverId}
+            id="receiverUsername"
+            name="receiverUsername"
+            value={newMessage.receiverUsername}
             onChange={handleInputChange}
             style={styles.input}
             required

@@ -1,9 +1,7 @@
 package se.kth.wiljam.patientjournal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -12,19 +10,24 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //maybe foreign key to user
-    private Long senderId;
-    //maybe foreign key to user
-    private Long receiverId;
+
+    @ManyToOne
+    @JsonBackReference(value = "sent-messages")
+    private User sender;
+
+    @ManyToOne
+    @JsonBackReference(value = "received-messages")
+    private User receiver;
+
     private String subject;
     private String content;
     private Date date;
 
     public Long getId() {return id;}
 
-    public Long getSender() {return senderId;}
+    public User getSender() {return sender;}
 
-    public Long getReceiver() {return receiverId;}
+    public User getReceiver() {return receiver;}
 
     public String getContent() {return content;}
 
@@ -34,13 +37,15 @@ public class Message {
 
     public void setId(Long id) {this.id = id;}
 
-    public void setSender(Long senderId) {this.senderId = senderId;}
+    public void setSender(User sender) {this.sender = sender;}
 
-    public void setReceiver(Long receiverId) {this.receiverId = receiverId;}
+    public void setReceiver(User receiver) {this.receiver = receiver;}
 
     public void setContent(String content) {this.content = content;}
 
     public void setDate(Date date) {this.date = date;}
 
     public void setSubject(String subject) {this.subject = subject;}
+
+
 }

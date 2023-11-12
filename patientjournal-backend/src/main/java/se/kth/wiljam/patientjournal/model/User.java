@@ -21,6 +21,22 @@ public class User {
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patientProfile;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "sent-messages")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "received-messages")
+    private List<Message> receivedMessages;
+
+//    public Long getDoctorId() {
+//        return doctorProfile.getId();
+//    }
+//
+//    public Long getPatientId() {
+//        return patientProfile.getId();
+//    }
+
     public UserType getType() {
         return type;
     }
@@ -82,4 +98,20 @@ public class User {
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}
+
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
 }

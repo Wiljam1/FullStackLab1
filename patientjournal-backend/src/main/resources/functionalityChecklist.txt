@@ -1,7 +1,7 @@
 Implementerat i backend;
 - [x] Inloggning
 - [x] Skapande av användare
-- [ ] Skapa övrig personal (STAFF)
+- [x] Skapa övrig personal (STAFF)
 - [x] Skapa ny patient notering (observation)
 - [x] Se all information om enskild patient
 - [x] Se all information om sig själv
@@ -11,10 +11,10 @@ Implementerat i backend;
 Implementerat i frontend;
 - [x] Inloggning
 - [x] Skapande av användare
-- [ ] Skapa användare (DOCTOR + PATIENT)
-- [ ] Skapa övrig personal (STAFF)
+- [x] Skapa användare (DOCTOR + PATIENT)
+- [x] Skapa övrig personal (STAFF)
 - [x] Skapa ny patient notering (observation)
-- [ ] Se all information om enskild patient
-- [ ] Se all information om sig själv
+- [x] Se all information om enskild patient
+- [x] Se all information om sig själv
 - [ ] Skicka meddelande till andra användare
 - [ ] Svara på meddelanden

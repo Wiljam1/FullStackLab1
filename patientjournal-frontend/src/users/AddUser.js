@@ -8,19 +8,26 @@ export default function AddUser() {
     username: "",
     password: "",
     email: "",
-    type: "DOCTOR",
+    type: "PATIENT",
     profile: {},
   });
   const { name, username, email, type, password, custom } = user;
+  const showIsDoctorCheckbox = type === 'STAFF';
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
-  // Function to determine the custom field label and placeholder based on user type
+
+  const [isDoctor, setIsDoctor] = useState(false);
+
+  const onCheckboxChange = () => {
+    setIsDoctor(!isDoctor);
+  }
+
   const getCustomFieldInfo = (type) => {
-    if (type === 'DOCTOR') {
+    if (type === 'STAFF') {
       return {
-        label: 'Enter your favorite fruit',
-        placeholder: 'Favorite Fruit',
+        label: 'Enter your specialty',
+        placeholder: 'Specialty',
       };
     } else if (type === 'PATIENT') {
       return {
@@ -37,19 +44,34 @@ export default function AddUser() {
   const customFieldInfo = getCustomFieldInfo(type);
   const onSubmit = async (e) => {
     e.preventDefault();
-    const userData = {
+  
+    let userData = {
       username,
       name,
       email,
       password,
       type,
-      ...(type === 'DOCTOR' ? { doctorProfile: { favoriteFruit: custom } } : {}),
-      ...(type === 'PATIENT' ? { patientProfile: { birthdate: custom } } : {}),
     };
+  
+    if (type === 'STAFF') {
+      if (isDoctor) {
+        userData.type = 'DOCTOR';
+      }
+      userData.staffProfile = {
+        specialty: custom,
+        doctor: isDoctor, 
+      };
+    } else if (type === 'PATIENT') {
+      userData.patientProfile = {
+        birthdate: custom,
+      };
+    }
+  
     console.log('Form Data:', userData);
+
     await axios.post("http://localhost:8080/user", userData);
     navigate("/");
-  }
+  };
   return (
     <div className='container'>
       <div className='row'>
@@ -118,7 +140,6 @@ export default function AddUser() {
                 value={type}
                 onChange={(e) => onInputChange(e)}
               >
-                <option value="DOCTOR">DOCTOR</option>
                 <option value="PATIENT">PATIENT</option>
                 <option value="STAFF">STAFF</option>
               </select>
@@ -136,6 +157,23 @@ export default function AddUser() {
                 onChange={(e) => onInputChange(e)}
               />
             </div>
+            {showIsDoctorCheckbox && (
+            <div className='mb-3'>
+              <label htmlFor='isDoctor' className='form-check-label'>
+                Is Doctor?
+              </label>
+              
+                <div className='form-check d-flex justify-content-center'>
+                  <input
+                    type="checkbox"
+                    className='form-check-input'
+                    name="isDoctor"
+                    checked={isDoctor}
+                    onChange={onCheckboxChange}
+                  />
+                </div>
+            </div>
+            )}
             <button type='submit' className='btn btn-outline-primary'>
               Submit
             </button>

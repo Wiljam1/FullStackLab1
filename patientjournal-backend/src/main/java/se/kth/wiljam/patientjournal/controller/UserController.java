@@ -28,6 +28,7 @@ public class UserController {
     //TODO: Använd DTO istället för model-klasserna
     @PostMapping("/user")
     User newUser(@RequestBody User user) {
+        System.out.println("Received JSON payload: " + user);
         return userService.create(user);
     }
 
@@ -58,6 +59,11 @@ public class UserController {
     @GetMapping("/patients")
     List<User> getAllPatients() {
         return userService.getUsersWithPatientIdNotNull();
+    }
+
+    @GetMapping("/staff")
+    List<User> getAllStaff() {
+        return userService.getUsersWithStaffIdNotNull();
     }
 
     @GetMapping("user/{id}")

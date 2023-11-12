@@ -8,11 +8,11 @@ export default function Navbar() {
 
     useEffect(() => {
         const user = JSON.parse(sessionStorage.getItem('user'));
-        const doctorProfile = user ? user.doctorProfile : null;
-
+        const staffProfile = user ? user.staffProfile : null;
+    
         setIsAuthenticated(!!user);
-        setIsDoctor(!!doctorProfile);
-
+        setIsDoctor(!!staffProfile && staffProfile.doctor);
+    
     }, [storedUser]);
 
     const handleLogout = () => {
@@ -41,24 +41,42 @@ export default function Navbar() {
                 </button>
                 
                 {isAuthenticated ? (
-                        <>  
-                            <Link className='btn btn-outline-light' to={`/viewuser/${storedUser.id}`}>View your profile</Link>
-                            <Link className='btn btn-outline-light' to="/messages">Messages</Link>
-                            {isDoctor ? (
-                                <>
-                                    <Link className='btn btn-outline-light' to="/patients">View patients</Link>
-                                    <Link className='btn btn-outline-light' to="/addobservation">Add Observation</Link>
-                                </>
-                            ) : null}
-                            <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
-                            <button className='btn btn-outline-light' onClick={handleLogout}>Logout</button>
+                    <>
+                    <Link className='btn btn-outline-light' to={`/viewuser/${storedUser.id}`}>
+                        View your profile
+                    </Link>
+                    <Link className='btn btn-outline-light' to="/messages">
+                        Messages
+                    </Link>
+                    {isDoctor ? (
+                        <>
+                        <Link className='btn btn-outline-light' to="/patients">
+                            View patients
+                        </Link>
+                        <Link className='btn btn-outline-light' to="/addobservation">
+                            Add Observation
+                        </Link>
                         </>
                     ) : (
-                        <>
-                            <Link className='btn btn-outline-light' to="/login">Login</Link>
-                            <Link className='btn btn-outline-light' to="/adduser">Register</Link>
-                        </>
+                        <Link className='btn btn-outline-light' to="/addobservation">
+                        Add Observation
+                        </Link>
                     )}
+                    <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
+                    <button className='btn btn-outline-light' onClick={handleLogout}>
+                        Logout
+                    </button>
+                    </>
+                ) : (
+                    <>
+                    <Link className='btn btn-outline-light' to="/login">
+                        Login
+                    </Link>
+                    <Link className='btn btn-outline-light' to="/register">
+                        Register
+                    </Link>
+                    </>
+                )}
             </div>
         </nav>
     </div>

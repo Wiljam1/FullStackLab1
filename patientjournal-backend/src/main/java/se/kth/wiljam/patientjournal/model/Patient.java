@@ -22,7 +22,6 @@ public class Patient {
     @OneToOne
     private User user;
 
-
     @OneToMany(mappedBy = "patient")
     @JsonManagedReference(value = "patient-observations")
     private Set<Observation> observations;

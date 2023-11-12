@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 export default function Navbar() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isDoctor, setIsDoctor] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
     useEffect(() => {
         const user = JSON.parse(sessionStorage.getItem('user'));
         const staffProfile = user ? user.staffProfile : null;
-    
+
         setIsAuthenticated(!!user);
         setIsDoctor(!!staffProfile && staffProfile.doctor);
-    
-    }, [storedUser]);
+
+        
+    }, [storedUser, navigate]);
 
     const handleLogout = () => {
         sessionStorage.removeItem('user');

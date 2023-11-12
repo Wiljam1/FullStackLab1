@@ -29,11 +29,11 @@ export default function Login() {
         console.log("test");
         try {
             const response = await axios.post("http://localhost:8080/login", user);
-
+            //console.log('Response to login:', response);
             if (response.status === 200) {
                 //sessionStorage.removeItem('user')
                 sessionStorage.setItem('user', JSON.stringify(response.data));
-                
+                sessionStorage.setItem('userId', response.data.id);
                 const isDoctor = response.data.doctorProfile !== null;
                 sessionStorage.setItem('isDoctor', JSON.stringify(isDoctor));
 
@@ -41,6 +41,7 @@ export default function Login() {
                     username: "",
                     password: ""
                 });
+
                 navigate('/');
             } else {
                 setError("Invalid username or password");

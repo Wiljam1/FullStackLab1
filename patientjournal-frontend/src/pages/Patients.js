@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Link, useParams } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Patients() {
+    const [users, setUsers] = useState([]);
+    const navigate = useNavigate();
 
-    const  [users, setUsers]=useState([])
-
-    const {id} = useParams()
-
-    useEffect(()=> {
+    useEffect(() => {
         loadUsers();
-        console.log("Information loaded" + id)
     }, []);
 
-    const loadUsers=async()=>{
-        const result = await axios.get("http://localhost:8080/patients");
-        setUsers(result.data);
+    const loadUsers = async () => {
+        try {
+            const result = await axios.get("http://localhost:8080/patients");
+            setUsers(result.data);
+            console.log("Information loaded");
+        } catch (error) {
+            console.error("Error loading users:", error);
+        }
+    };
+
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    if (storedUser?.type !== 2) { // check if current user is a doctor
+        navigate('/');
     }
  
   return (

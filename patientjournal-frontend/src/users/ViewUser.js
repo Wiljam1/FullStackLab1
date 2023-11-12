@@ -1,23 +1,31 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 
 export default function ViewUser() {
-
     const [user, setUser] = useState({
-        name:"",
-        username:"",
-        email:"",
-        type:"",
-        patientProfile: null, 
-        doctorProfile: null, 
-    })
+        name: "",
+        username: "",
+        email: "",
+        type: "",
+        patientProfile: null,
+        doctorProfile: null,
+    });
 
-    const {id} = useParams();
+    const navigate = useNavigate();
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    const { id } = useParams();
 
     useEffect(() => {
+        const isAllowed = storedUser?.id === id || storedUser?.type === 'DOCTOR';
+
+        if (!isAllowed) {
+            console.log("Not authorized, storedId:" + storedUser?.id + " and url id: " + `${id}`);
+            navigate('/');
+        }
+
         loadUser();
-    }, [])
+    }, [id, navigate, storedUser]);
 
     const loadUser = async () => {
         try {

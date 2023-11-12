@@ -12,6 +12,7 @@ export default function ViewUser() {
         doctorProfile: null,
     });
 
+    const [observationsLoaded, setObservationsLoaded] = useState(false);
     const navigate = useNavigate();
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
     const { id } = useParams();
@@ -29,8 +30,11 @@ export default function ViewUser() {
 
     const loadUser = async () => {
         try {
-          const result = await axios.get(`http://localhost:8080/user/${id}`);
-          setUser(result.data);
+            if(!observationsLoaded) {
+                const result = await axios.get(`http://localhost:8080/user/${id}`);
+                setUser(result.data);
+                setObservationsLoaded(true);
+            }          
         } catch (error) {
           console.error("Error loading user:", error);
         }

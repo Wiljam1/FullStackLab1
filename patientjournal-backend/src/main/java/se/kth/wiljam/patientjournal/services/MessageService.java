@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class MessageService {
-
     @Autowired
     private MessageRepository messageRepository;
 
@@ -24,31 +23,21 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public List<Message> getAllMessagesBySender(Long sender_id) {
-        return messageRepository.findBySenderId(sender_id);
+    public List<Message> getMessagesBySender(String senderUsername) {
+        return messageRepository.findBySenderUsername(senderUsername);
     }
 
-    public List<Message> getAllMessagesByReceiver(Long receiver_id) {
-        return messageRepository.findByReceiverId(receiver_id);
+    public List<Message> getMessagesByReceiver(String receiverUsername) {
+        return messageRepository.findByReceiverUsername(receiverUsername);
     }
 
-    public List<Message> getAllBySubject(String subject) {
+    public List<Message> getMessagesBySubject(String subject) {
         return messageRepository.findBySubject(subject);
     }
 
-    public List<Message> getBySenderIdAndReceiverId(Long senderId, Long receiverId) {
-        return messageRepository.findBySenderIdAndReceiverId(senderId, receiverId);
-    }
-
-    public List<Message> getBySenderIdAndSubject(Long senderId, String subject) {
-        return messageRepository.findBySenderIdAndSubject(senderId, subject);
-    }
-
-    public List<Message> getByReceiverIdAndSubject(Long receiverId, String subject) {
-        return messageRepository.findByReceiverIdAndSubject(receiverId, subject);
-    }
-
-    public List<Message> getBySenderIdAndReceiverIdAndSubject(Long senderId, Long receiverId, String subject) {
-        return messageRepository.findBySenderIdAndReceiverIdAndSubject(senderId, receiverId, subject);
+    public List<Message> getMessagesBySenderAndReceiverAndSubject(
+            String senderUsername, String receiverUsername, String subject) {
+        return messageRepository.findBySenderUsernameAndReceiverUsernameAndSubject(
+                senderUsername, receiverUsername, subject);
     }
 }

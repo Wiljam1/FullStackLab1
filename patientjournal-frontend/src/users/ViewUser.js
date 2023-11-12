@@ -18,7 +18,7 @@ export default function ViewUser() {
     const { id } = useParams();
 
     useEffect(() => {
-        /*
+        /* 
         const isAllowed = storedUser?.id === id || storedUser?.type === 'DOCTOR';
 
         if (!isAllowed) {

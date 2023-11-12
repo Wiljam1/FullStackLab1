@@ -48,94 +48,76 @@ const MessageViewer = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.messagesContainer}>
-        <h2>All Messages</h2>
-        <ul>
-          {messages.map(message => (
-            <li key={message.id} style={styles.messageItem}>
-              <strong>Subject:</strong> {message.subject}, <strong>Content:</strong> {message.content}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <div className="border rounded p-4 shadow">
+              <h2 className="text-center m-4">All Messages</h2>
+              <ul>
+                {messages.map((message) => (
+                    <li key={message.id}>
+                      <strong>Subject:</strong> {message.subject}, <strong>Content:</strong> {message.content}
+                    </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-      <div style={styles.sendMessageContainer}>
-        <h2>Send a Message</h2>
-        <form onSubmit={handleSubmit} style={styles.messageForm}>
-          <label htmlFor="receiverUsername">Receiver Username:</label>
-          <input
-            type="text"
-            id="receiverUsername"
-            name="receiverUsername"
-            value={newMessage.receiverUsername}
-            onChange={handleInputChange}
-            style={styles.input}
-            required
-          />
-          <label htmlFor="subject">Subject:</label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            value={newMessage.subject}
-            onChange={handleInputChange}
-            style={styles.input}
-            required
-          />
-          <label htmlFor="content">Content:</label>
-          <input
-            id="content"
-            name="content"
-            value={newMessage.content}
-            onChange={handleInputChange}
-            style={styles.textarea}
-            required
-          />
-
-          <button type="submit" style={styles.button}>Send Message</button>
-        </form>
+          <div className="col-md-6 mb-4">
+            <div className="border rounded p-4 shadow">
+              <h2 className="text-center m-4">Send a Message</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label htmlFor="receiverUsername" className="form-label">
+                    Receiver Username:
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      id="receiverUsername"
+                      name="receiverUsername"
+                      value={newMessage.receiverUsername}
+                      onChange={handleInputChange}
+                      required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="subject" className="form-label">
+                    Subject:
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      id="subject"
+                      name="subject"
+                      value={newMessage.subject}
+                      onChange={handleInputChange}
+                      required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="content" className="form-label">
+                    Content:
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      id="content"
+                      name="content"
+                      value={newMessage.content}
+                      onChange={handleInputChange}
+                      required
+                  />
+                </div>
+                <button type="submit" className="btn btn-outline-primary">
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    padding: '20px',
-  },
-  messagesContainer: {
-    flex: 1,
-    marginRight: '20px',
-  },
-  messageItem: {
-    marginBottom: '10px',
-  },
-  sendMessageContainer: {
-    flex: 1,
-  },
-  messageForm: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  input: {
-    marginBottom: '10px',
-    padding: '5px',
-  },
-  textarea: {
-    marginBottom: '10px',
-    padding: '5px',
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    padding: '10px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
 };
 
 export default MessageViewer;

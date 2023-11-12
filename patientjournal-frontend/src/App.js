@@ -9,6 +9,7 @@ import ViewUser from './users/ViewUser';
 import Login from "./users/Login";
 import React from 'react';
 import AddObservation from "./users/AddObservation";
+import Messages from "./users/Messages";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/viewuser/:id" element={<ViewUser />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/addobservation" element={<AddObservation />} />
+        <Route exact path="/messages" element={<Messages />} />
       </Routes>
       </Router>
   

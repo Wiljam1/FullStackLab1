@@ -4,14 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.kth.wiljam.patientjournal.model.Encounter;
-import se.kth.wiljam.patientjournal.model.Observation;
-import se.kth.wiljam.patientjournal.model.Patient;
-import se.kth.wiljam.patientjournal.model.User;
-import se.kth.wiljam.patientjournal.services.EncounterService;
-import se.kth.wiljam.patientjournal.services.ObservationService;
-import se.kth.wiljam.patientjournal.services.PatientService;
-import se.kth.wiljam.patientjournal.services.UserService;
+import se.kth.wiljam.patientjournal.model.*;
+import se.kth.wiljam.patientjournal.services.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,6 +22,8 @@ public class UserController {
     private EncounterService encounterService;
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private MessageService messageService;
 
     //TODO: Använd DTO istället för model-klasserna
     @PostMapping("/user")
@@ -88,6 +84,40 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/message")
+    Message newMessage(@RequestBody Message message) {
+        return messageService.create(message);
+    }
+
+    @GetMapping("messages")
+    List<Message> getAllMessages() {
+        return messageService.getAllMessages();
+    }
+
+    //dålig då flera konversationer kan ha samma subject
+    @GetMapping("messages/subject")
+    List<Message> getMessagesBySubject(String subject) {
+        return messageService.getAllBySubject(subject);
+    }
+
+    @GetMapping("messages/{receiver_id}{subject}")
+    List<Message> getMessagesByReceiverIdAndSubject(Message message) {
+        return messageService.getByReceiverIdAndSubject(message.getReceiver(), message.getSubject());
+    }
+
+    @GetMapping("messages/{sender_id}{subject}")
+    List<Message> getMessagesBySenderIdAndSubject(Message message) {
+        return messageService.getByReceiverIdAndSubject(message.getSender(), message.getSubject());
+    }
+
+    //denna är bäst men finns fortfarande problem med att de kan finnas samma ämne
+    //tror att man måste kalla på denna två gånger för att få alla meddelanden. byt plats på id då.
+    @GetMapping("messages/{sender_id}{receiver_id}{subject}")
+    List<Message> getMessagesBySenderIdAndReceiverIdAndSubject(Message message) {
+        return messageService.getBySenderIdAndReceiverIdAndSubject(message.getSender(), message.getReceiver(), message.getSubject());
+    }
+
 
     /* --- UNUSED METHODS
         @PutMapping("user/{id}")

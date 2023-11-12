@@ -10,6 +10,7 @@ import Login from "./users/Login";
 import React from 'react';
 import AddObservation from "./users/AddObservation";
 import Messages from "./users/Messages";
+import Patients from './pages/Patients';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/adduser" element={<AddUser />} />
+        <Route exact path="/patients" element={<Patients />} />
         <Route exact path="/edituser/:id" element={<EditUser />} />
         <Route exact path="/viewuser/:id" element={<ViewUser />} />
         <Route exact path="/login" element={<Login />} />

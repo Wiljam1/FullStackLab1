@@ -65,10 +65,10 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @GetMapping("user/{username}")
-    User getUserByUsername(@PathVariable String username) {
-        return userService.getByUsername(username);
-    }
+//    @GetMapping("user/{username}")
+//    User getUserByUsername(@PathVariable String username) {
+//        return userService.getByUsername(username);
+//    }
 
     @GetMapping("encounter/{id}/")
     List<Encounter> getPatientEncounters(@PathVariable Long id) {

@@ -32,20 +32,6 @@ public class UserController {
         return userService.create(user);
     }
 
-    // TODO: Implement encounter + condition after every other function done.
-    // id is now in the URL! ex: http://localhost:8080/encounter?patientId=1
-//    @PostMapping("/encounter/create")
-//    Encounter createEncounter(@RequestBody Encounter encounter, @RequestParam Long patientId) {
-//        return encounterService.create(encounter, patientId);
-//    }
-
-//    @PostMapping("/encounter")
-//    Encounter createEncounter(@RequestBody Encounter encounter) {
-//        Long patientId = encounter.getPatientId();
-//        return encounterService.create(encounter, patientId);
-//    }
-
-
     @PostMapping("/observation")
     Observation createObservation(@RequestBody Observation observation) {
         return observationService.create(observation);
@@ -106,17 +92,25 @@ public class UserController {
         return messageService.getMessagesBySubject(subject);
     }
 
-    @GetMapping("/messages/{receiverUsername}")
-    List<Message> getMessagesByReceiver(
-            @PathVariable String receiverUsername) {
-
-        return messageService.getMessagesByReceiver(receiverUsername);
-    }
+//    @GetMapping("/messages/{receiverUsername}")
+//    List<Message> getMessagesByReceiver(
+//            @PathVariable String receiverUsername) {
+//
+//        return messageService.getMessagesByReceiver(receiverUsername);
+//    }
 
     @GetMapping("/messages/{senderUsername}")
     List<Message> getMessagesBySender(
             @PathVariable String senderUsername) {
         return messageService.getMessagesBySender(senderUsername);
+    }
+
+    @GetMapping("/messages/{senderId}/{receiverId}")
+    List<Message> getConversation(
+            @PathVariable Long senderId,
+            @PathVariable Long receiverId) {
+
+        return messageService.getConversation(senderId, receiverId);
     }
 
     @GetMapping("/messages/{senderUsername}/{receiverUsername}/{subject}")

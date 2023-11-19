@@ -17,14 +17,14 @@ export default function ViewUser() {
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
     const { id } = useParams();
 
-    useEffect(() => {
-        /* 
-        const isAllowed = storedUser?.id === id || storedUser?.type === 'DOCTOR';
+    const isAuthorized = storedUser?.id == id || storedUser?.type === 'DOCTOR';
 
-        if (!isAllowed) {
+    useEffect(() => {
+        if (!isAuthorized) {
             console.log("Not authorized, storedId:" + storedUser?.id + " and url id: " + `${id}`);
             navigate('/');
-        }*/
+            return;
+        }
 
         loadUser();
     }, [id, navigate, storedUser]);

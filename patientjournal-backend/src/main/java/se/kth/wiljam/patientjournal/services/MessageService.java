@@ -31,6 +31,10 @@ public class MessageService {
         return messageRepository.findByReceiverUsername(receiverUsername);
     }
 
+    public List<Message> getMessagesBySenderAndReceiver(String senderUsername, String receiverUsername) {
+        return messageRepository.findBySenderUsernameAndReceiverUsername(senderUsername, receiverUsername);
+    }
+
     public List<Message> getMessagesBySubject(String subject) {
         return messageRepository.findBySubject(subject);
     }
@@ -39,5 +43,9 @@ public class MessageService {
             String senderUsername, String receiverUsername, String subject) {
         return messageRepository.findBySenderUsernameAndReceiverUsernameAndSubject(
                 senderUsername, receiverUsername, subject);
+    }
+
+    public List<Message> getConversation(Long senderId, Long receiverId) {
+        return messageRepository.findBySenderIdAndReceiverIdOrReceiverIdAndSenderId(senderId, receiverId);
     }
 }

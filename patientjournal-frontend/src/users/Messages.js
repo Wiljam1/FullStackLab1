@@ -13,14 +13,6 @@ const MessageViewer = () => {
     content: '',
   });
 
-  /*
-  useEffect(() => {
-    axios.get('http://localhost:8080/messages')
-      .then(response => setMessages(response.data))
-      .catch(error => console.error('Error fetching messages:', error));
-  }, []);
-  */
-
   useEffect(() => {
     axios.get('http://localhost:8080/users')
       .then(response => setUsers(response.data))

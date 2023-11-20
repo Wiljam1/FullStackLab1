@@ -26,10 +26,6 @@ export default function Patients() {
         }
     };
 
-    
-
-        
- 
   return (
     <div className='container'>
         <div className='py-4'>

@@ -26,11 +26,6 @@ public class Patient {
     @JsonManagedReference(value = "patient-observations")
     private Set<Observation> observations;
 
-    @OneToMany
-    private Set<Condition> conditions;
-    @OneToMany//(fetch = FetchType.LAZY)
-    private Set<Encounter> encounters;
-
     public User getUser() {
         return user;
     }
@@ -55,27 +50,11 @@ public class Patient {
         this.birthdate = birthdate;
     }
 
-    public Set<Condition> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(Set<Condition> conditions) {
-        this.conditions = conditions;
-    }
-
     public Set<Observation> getObservations() {
         return observations;
     }
 
     public void setObservations(Set<Observation> observations) {
         this.observations = observations;
-    }
-
-    public Set<Encounter> getEncounters() {
-        return encounters;
-    }
-
-    public void setEncounters(Set<Encounter> encounters) {
-        this.encounters = encounters;
     }
 }

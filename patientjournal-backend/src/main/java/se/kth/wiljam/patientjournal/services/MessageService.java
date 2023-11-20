@@ -2,10 +2,7 @@ package se.kth.wiljam.patientjournal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
-import se.kth.wiljam.patientjournal.model.Encounter;
 import se.kth.wiljam.patientjournal.model.Message;
-import se.kth.wiljam.patientjournal.model.User;
 import se.kth.wiljam.patientjournal.repository.MessageRepository;
 
 import java.util.List;

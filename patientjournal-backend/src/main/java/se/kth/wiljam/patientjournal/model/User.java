@@ -32,14 +32,6 @@ public class User {
     @JsonManagedReference(value = "received-messages")
     private List<Message> receivedMessages;
 
-//    public Long getDoctorId() {
-//        return doctorProfile.getId();
-//    }
-//
-//    public Long getPatientId() {
-//        return patientProfile.getId();
-//    }
-
     public UserType getType() {
         return type;
     }

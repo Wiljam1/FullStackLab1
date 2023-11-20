@@ -17,24 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private ObservationService observationService;
-    @Autowired
-    private EncounterService encounterService;
-    @Autowired
-    private PatientService patientService;
-    @Autowired
     private MessageService messageService;
 
-    //TODO: Använd DTO istället för model-klasserna
     @PostMapping("/user")
     User newUser(@RequestBody User user) {
         System.out.println("Received JSON payload: " + user);
         return userService.create(user);
-    }
-
-    @PostMapping("/observation")
-    Observation createObservation(@RequestBody Observation observation) {
-        return observationService.create(observation);
     }
 
     @GetMapping("/users")
@@ -47,11 +35,6 @@ public class UserController {
         return userService.getUsersWithPatientIdNotNull();
     }
 
-    @GetMapping("/staff")
-    List<User> getAllStaff() {
-        return userService.getUsersWithStaffIdNotNull();
-    }
-
     @GetMapping("user/{id}")
     User getUserById(@PathVariable Long id) {
         return userService.getById(id);
@@ -60,11 +43,6 @@ public class UserController {
     @GetMapping("user123/{username}")
     User getUserByUsername(@PathVariable String username) {
         return userService.getByUsername(username);
-    }
-
-    @GetMapping("encounter/{id}/")
-    List<Encounter> getPatientEncounters(@PathVariable Long id) {
-        return encounterService.getPatientEncounters(id);
     }
 
     @PostMapping("/login")
@@ -92,13 +70,6 @@ public class UserController {
         return messageService.getMessagesBySubject(subject);
     }
 
-//    @GetMapping("/messages/{receiverUsername}")
-//    List<Message> getMessagesByReceiver(
-//            @PathVariable String receiverUsername) {
-//
-//        return messageService.getMessagesByReceiver(receiverUsername);
-//    }
-
     @GetMapping("/messages/{senderUsername}")
     List<Message> getMessagesBySender(
             @PathVariable String senderUsername) {
@@ -121,17 +92,4 @@ public class UserController {
 
         return messageService.getMessagesBySenderAndReceiverAndSubject(senderUsername, receiverUsername, subject);
     }
-
-
-    /* --- UNUSED METHODS
-        @PutMapping("user/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-        return userService.edit(newUser, id);
-    }
-
-    @DeleteMapping("/user/{id}/")
-    String deleteUser(@PathVariable Long id) {
-        return userService.delete(id);
-    }
-     */
 }

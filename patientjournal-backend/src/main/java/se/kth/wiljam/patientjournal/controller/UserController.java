@@ -18,6 +18,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private ObservationService observationService;
 
     @PostMapping("/user")
     User newUser(@RequestBody User user) {
@@ -40,7 +42,7 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @GetMapping("user123/{username}")
+    @GetMapping("userInfo/{username}")
     User getUserByUsername(@PathVariable String username) {
         return userService.getByUsername(username);
     }
@@ -55,25 +57,14 @@ public class UserController {
         }
     }
 
+    @PostMapping("/observation")
+    Observation createObservation(@RequestBody Observation observation) {
+        return observationService.create(observation);
+    }
+
     @PostMapping("/message")
     Message newMessage(@RequestBody Message message) {
         return messageService.create(message);
-    }
-
-    @GetMapping("/messages")
-    List<Message> getAllMessages() {
-        return messageService.getAllMessages();
-    }
-
-    @GetMapping("/messages/by-subject")
-    List<Message> getMessagesBySubject(@RequestParam String subject) {
-        return messageService.getMessagesBySubject(subject);
-    }
-
-    @GetMapping("/messages/{senderUsername}")
-    List<Message> getMessagesBySender(
-            @PathVariable String senderUsername) {
-        return messageService.getMessagesBySender(senderUsername);
     }
 
     @GetMapping("/messages/{senderId}/{receiverId}")
@@ -82,14 +73,5 @@ public class UserController {
             @PathVariable Long receiverId) {
 
         return messageService.getConversation(senderId, receiverId);
-    }
-
-    @GetMapping("/messages/{senderUsername}/{receiverUsername}/{subject}")
-    List<Message> getMessagesBySenderAndReceiverAndSubject(
-            @PathVariable String senderUsername,
-            @PathVariable String receiverUsername,
-            @PathVariable String subject) {
-
-        return messageService.getMessagesBySenderAndReceiverAndSubject(senderUsername, receiverUsername, subject);
     }
 }

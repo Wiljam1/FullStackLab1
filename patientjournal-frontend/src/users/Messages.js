@@ -47,7 +47,7 @@ const MessageViewer = () => {
     e.preventDefault();
   
     // Fetch the user with the provided receiverUsername
-    axios.get(`http://localhost:8080/user123/${newMessage.receiverUsername}`)
+    axios.get(`http://localhost:8080/userInfo/${newMessage.receiverUsername}`)
       .then(response => {
         const receiverUser = response.data;
   

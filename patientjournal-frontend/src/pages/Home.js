@@ -27,7 +27,7 @@ export default function Home() {
                   <p>Welcome to the home page!</p>
               </div>
 
-              {/* Displays all users in database - Remove table later 
+              {/* Displays all users in database - Remove table later */}
               <table className="table shadow border fixed-bottom">
                   <thead>
                       <tr>
@@ -54,7 +54,6 @@ export default function Home() {
                       ))}
                   </tbody>
               </table>
-              */}
           </div>
       </div>
   )

@@ -31,7 +31,7 @@ const MessageViewer = () => {
     try {
       const senderId = storedUser.id;
       const response = await axios.get(`http://localhost:8083/messages/${senderId}`);
-  
+      console.log("Message id: " + message.id + " and responsedata id: " + response.data.some(sentMessage => sentMessage.id))
       return response.data.some(sentMessage => sentMessage.id === message.id);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -72,10 +72,6 @@ const MessageViewer = () => {
               .then(response => {
                 setMessages([...messages, response.data]);
                 setNewMessage({ receiverUsername: '', subject: '', content: '' });
-
-                // Update storedUser in session storage
-                const updatedUser = { ...storedUser, sentMessages: [...storedUser.sentMessages, response.data] };
-                sessionStorage.setItem('user', JSON.stringify(updatedUser));
               })
               .catch(error => console.error('Error sending message:', error));
         })

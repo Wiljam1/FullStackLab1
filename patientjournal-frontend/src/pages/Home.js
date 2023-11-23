@@ -14,10 +14,14 @@ export default function Home() {
         console.log("Information loaded" + id)
     }, []);
 
-    const loadUsers=async()=>{
-        const result = await axios.get("http://localhost:8081/users");
-        setUsers(result.data);
-    }
+    const loadUsers = async () => {
+        try {
+            const result = await axios.get("http://localhost:8081/users");
+            setUsers(result.data);
+        } catch (error) {
+            console.error("Error loading users:", error);
+        }
+    };
  
     return (
       <div className='container'>

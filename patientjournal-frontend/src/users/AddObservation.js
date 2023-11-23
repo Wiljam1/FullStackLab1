@@ -26,7 +26,7 @@ export default function AddObservation() {
         }
 
         const loadUsers = async () => {
-            const result = await axios.get('http://localhost:8080/patients');
+            const result = await axios.get('http://localhost:8081/patients');
             setUsers(result.data);
         };
         loadUsers();

@@ -28,7 +28,7 @@ export default function Login() {
         e.preventDefault();
         console.log("test");
         try {
-            const response = await axios.post("http://localhost:8080/login", user);
+            const response = await axios.post("http://localhost:8081/login", user);
             //console.log('Response to login:', response);
             if (response.status === 200) {
                 //sessionStorage.removeItem('user')

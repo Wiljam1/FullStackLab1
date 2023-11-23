@@ -14,7 +14,7 @@ const MessageViewer = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:8080/users')
+    axios.get('http://localhost:8081/users')
         .then(response => setUsers(response.data))
         .catch(error => console.error('Error fetching users:', error));
   }, []);
@@ -47,7 +47,7 @@ const MessageViewer = () => {
     e.preventDefault();
 
     // Fetch the user with the provided receiverUsername
-    axios.get(`http://localhost:8080/userInfo/${newMessage.receiverUsername}`)
+    axios.get(`http://localhost:8081/userInfo/${newMessage.receiverUsername}`)
         .then(response => {
           const receiverUser = response.data;
 

@@ -14,7 +14,7 @@ const MessageViewer = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:8080/users')
+    axios.get('http://localhost:8081/users')
         .then(response => setUsers(response.data))
         .catch(error => console.error('Error fetching users:', error));
   }, []);
@@ -27,8 +27,16 @@ const MessageViewer = () => {
     setSelectedReceiver(user);
   };
 
-  const isMessageSender = (message) => {
-    return storedUser.sentMessages.some(sentMessage => sentMessage.id === message.id);
+  const isMessageSender = async (message) => {
+    try {
+      const senderId = storedUser.id;
+      const response = await axios.get(`http://localhost:8083/messages/${senderId}`);
+  
+      return response.data.some(sentMessage => sentMessage.id === message.id);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -47,7 +55,7 @@ const MessageViewer = () => {
     e.preventDefault();
 
     // Fetch the user with the provided receiverUsername
-    axios.get(`http://localhost:8080/userInfo/${newMessage.receiverUsername}`)
+    axios.get(`http://localhost:8081/userInfo/${newMessage.receiverUsername}`)
         .then(response => {
           const receiverUser = response.data;
 
@@ -71,7 +79,7 @@ const MessageViewer = () => {
               })
               .catch(error => console.error('Error sending message:', error));
         })
-        .catch(error => console.error('Error fetching user:', error));
+        .catch(error => console.error('Error fetching user:', error)); 
   };
 
   return (

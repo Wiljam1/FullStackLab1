@@ -18,7 +18,7 @@ export default function Patients() {
 
     const loadUsers = async () => {
         try {
-            const result = await axios.get("http://localhost:8080/patients");
+            const result = await axios.get("http://localhost:8081/patients");
             setUsers(result.data);
             console.log("Information loaded");
         } catch (error) {

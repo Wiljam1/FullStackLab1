@@ -34,7 +34,7 @@ export default function ViewUser() {
   const loadUser = async () => {
     try {
       if (!observationsLoaded) {
-        const userResult = await axios.get(`http://localhost:8080/user/${id}`);
+        const userResult = await axios.get(`http://localhost:8081/user/${id}`);
 
         if (userResult.data.patientProfile) {
           console.log(`User has a patientProfile. ID: ${userResult.data.patientProfile.id}`);

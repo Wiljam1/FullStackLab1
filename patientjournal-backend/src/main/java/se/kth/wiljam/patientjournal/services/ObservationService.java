@@ -2,7 +2,6 @@ package se.kth.wiljam.patientjournal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.kth.wiljam.patientjournal.exception.UserNotFoundException;
 import se.kth.wiljam.patientjournal.model.Observation;
 import se.kth.wiljam.patientjournal.repository.ObservationRepository;
 
@@ -13,10 +12,6 @@ public class ObservationService {
 
     @Autowired
     private ObservationRepository observationRepository;
-
-    @Autowired
-    private UserService userService;
-
 
     public Observation create(Observation observation) {
         try {

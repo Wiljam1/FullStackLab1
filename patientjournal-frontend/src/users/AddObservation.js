@@ -9,13 +9,13 @@ export default function AddObservation() {
     const [selectedPatient, setSelectedPatient] = useState(null);
 
     const [observation, setObservation] = useState({
-        performer: {},
-        patient: {},
+        performerId: "",
+        patientId: "",
         subject: "",
         basedOn: ""
     });
 
-    const { performer, patient, subject, basedOn } = observation;
+    const { performerId, patientId, subject, basedOn } = observation;
 
     const isAuthorized = storedUser !== null && storedUser.staffProfile;
 
@@ -39,12 +39,8 @@ export default function AddObservation() {
     const onSelectUser = (user) => {
         setSelectedPatient(user);
         const jsonData = {
-            performer: {
-                id: storedUser.staffProfile.id
-            },
-            patient: {
-                id: user.patientProfile.id
-            },
+            performerId: storedUser.staffProfile.id,
+            patientId: user.patientProfile.id,
             subject: observation.subject,
             basedOn: observation.basedOn
         };
@@ -54,7 +50,7 @@ export default function AddObservation() {
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(observation);
-        await axios.post("http://localhost:8080/observation", observation);
+        await axios.post("http://localhost:8082/observation", observation);
         navigate("/");
     };
 

@@ -11,6 +11,8 @@ import React from 'react';
 import AddObservation from "./users/AddObservation";
 import Messages from "./users/Messages";
 import Patients from './pages/Patients';
+import ImageUpload from "./users/ImageUpload";
+import ImageEdit from "./users/ImageEdit";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/addobservation" element={<AddObservation />} />
         <Route exact path="/messages" element={<Messages />} />
+        <Route path="/image-upload" element={<ImageUpload/>} />
+        <Route path="/image-edit/:index" element={<ImageEdit/>} />
       </Routes>
       </Router>
   

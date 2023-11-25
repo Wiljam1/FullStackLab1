@@ -73,6 +73,9 @@ export default function Navbar() {
                             <Link className='btn btn-outline-light' to="/login">
                                 Login
                             </Link>
+                            <Link className='btn btn-outline-light' to="/image-upload">
+                                testing
+                            </Link>
                             <Link className='btn btn-outline-light' to="/register">
                                 Register
                             </Link>

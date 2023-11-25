@@ -14,6 +14,10 @@ export default function ViewUser() {
 
   const [observationsLoaded, setObservationsLoaded] = useState(false);
   const [observations, setObservations] = useState([]);
+  const [conditionsLoaded, setConditionsLoaded] = useState(false);
+  const [conditions, setConditions] = useState([]);
+  const [encountersLoaded, setEncountersLoaded] = useState(false);
+  const [encounters, setEncounters] = useState([]);
 
   const navigate = useNavigate();
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
@@ -31,31 +35,66 @@ export default function ViewUser() {
     loadUser();
   }, [id, navigate, storedUser]);
 
-  const loadUser = async () => {
+  const fetchData = async (url, onSuccess, onError) => {
     try {
-      if (!observationsLoaded) {
-        const userResult = await axios.get(`http://localhost:8081/user/${id}`);
-
-        if (userResult.data.patientProfile) {
-          console.log(`User has a patientProfile. ID: ${userResult.data.patientProfile.id}`);
-
-          const observationsResult = await axios.get(
-            `http://localhost:8082/observation/${userResult.data.patientProfile.id}`
-          );
-
-          console.log("Observations Result:", observationsResult.data);
-          setObservations(observationsResult.data);
-        }
-
-        console.log("User Profile:", userResult.data);
-
-        setUser(userResult.data);
-        setObservationsLoaded(true);
-      }
+      const result = await axios.get(url);
+      onSuccess(result.data);
     } catch (error) {
-      console.error("Error loading user:", error);
+      console.error(`Error: ${onError}`, error);
     }
   };
+  
+  const loadObservations = async (profileId, userType) => {
+    const endpoint = userType === 'patient' ? 'patient' : 'staff';
+    const url = `http://localhost:8082/observation/${endpoint}/${profileId}`;
+    fetchData(url, setObservations, 'loading observations');
+  };
+  
+  const loadConditions = async (profileId, userType) => {
+    const endpoint = userType === 'patient' ? 'patient' : 'staff';
+    const url = `http://localhost:8082/condition/${endpoint}/${profileId}`;
+    fetchData(url, setConditions, 'loading conditions');
+  };
+  
+  const loadEncounters = async (profileId, userType) => {
+    const endpoint = userType === 'patient' ? 'patient' : 'staff';
+    const url = `http://localhost:8082/encounter/${endpoint}/${profileId}`;
+    fetchData(url, setEncounters, 'loading encounters');
+  };
+  
+  const loadUser = async () => {
+  try {
+    const userResult = await axios.get(`http://localhost:8081/user/${id}`);
+    const user = userResult.data;
+
+    //console.log("User Profile:", user);
+    setUser(user);
+
+    if (user.patientProfile) {
+      if (!observationsLoaded) {
+        await loadObservations(user.patientProfile.id, 'patient');
+        setObservationsLoaded(true);
+      }
+
+      if (!conditionsLoaded) {
+        await loadConditions(user.patientProfile.id, 'patient');
+        setConditionsLoaded(true);
+      }
+
+      if (!encountersLoaded) {
+        await loadEncounters(user.patientProfile.id, 'patient');
+        setEncountersLoaded(true);
+      }
+    } else if (user.staffProfile) {
+      if (!encountersLoaded) {
+        await loadEncounters(user.staffProfile.id, 'staff');
+        setEncountersLoaded(true);
+      }
+    }
+  } catch (error) {
+    console.error("Error loading user:", error);
+  }
+};
 
   return (
     <div className='container'>
@@ -110,15 +149,76 @@ export default function ViewUser() {
                         </tbody>
                       </table>
                     </li>
+                    <li className='list-group-item'>
+                      <b>Conditions: </b>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {conditions.map((condition) => (
+                            <tr key={condition.id}>
+                              <td>{condition.name}</td>
+                              <td>{condition.description}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </li>
+                    <li className='list-group-item'>
+                      <b>Encounters: </b>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Practitioner</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {encounters.map((encounter) => (
+                            <tr key={encounter.id}>
+                              <td>{encounter.date}</td>
+                              <td>{encounter.location}</td>
+                              <td>{encounter.practitionerId}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </li>
                   </>
                 )}
 
                 {/* Display doctor-specific information */}
-                {user.doctorProfile && (
+                {user.staffProfile && (
                   <>
                     <li className='list-group-item'>
-                      <b>Favorite fruit: </b>
-                      {user.doctorProfile.favoriteFruit}
+                      <b>Specialty: </b>
+                      {user.staffProfile.specialty}
+                    </li>
+                    <li className='list-group-item'>
+                      <b>Encounters: </b>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Patient</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {encounters.map((encounter) => (
+                            <tr key={encounter.id}>
+                              <td>{encounter.date}</td>
+                              <td>{encounter.location}</td>
+                              <td>{encounter.patientId}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </li>
                   </>
                 )}

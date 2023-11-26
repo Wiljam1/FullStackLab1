@@ -1,21 +1,24 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function AddObservation() {
     let navigate = useNavigate();
     const storedUser = JSON.parse(sessionStorage.getItem('user'));
     const [users, setUsers] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
 
-    const [observation, setObservation] = useState({
-        performerId: "",
+    const [encounter, setEncounter] = useState({
+        practitionerId: "",
         patientId: "",
-        subject: "",
-        basedOn: ""
+        date: "",
+        location: ""
     });
 
-    const { performerId, patientId, subject, basedOn } = observation;
+    const { practitionerId, patientId, date, location } = encounter;
 
     const isAuthorized = storedUser !== null && storedUser.staffProfile;
 
@@ -33,24 +36,24 @@ export default function AddObservation() {
     }, [isAuthorized]);
 
     const onInputChange = (e) => {
-        setObservation({ ...observation, [e.target.name]: e.target.value });
+        setEncounter({ ...encounter, [e.target.name]: e.target.value });
     };
 
     const onSelectUser = (user) => {
         setSelectedPatient(user);
         const jsonData = {
-            performerId: storedUser.staffProfile.id,
+            practitionerId: storedUser.staffProfile.id,
             patientId: user.patientProfile.id,
-            subject: observation.subject,
-            basedOn: observation.basedOn
+            date: startDate,
+            location: encounter.location
         };
-        setObservation(jsonData);
+        setEncounter(jsonData);
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(observation);
-        await axios.post("http://localhost:8082/observation", observation);
+        console.log(encounter);
+        await axios.post("http://localhost:8082/encounter", encounter);
         navigate("/");
     };
 
@@ -58,9 +61,9 @@ export default function AddObservation() {
         <div className="container">
             <div className="row">
                 <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-                    <h2 className="text-center m-4">Add Observation</h2>
+                    <h2 className="text-center m-4">Add Encounter</h2>
                     <form onSubmit={(e) => onSubmit(e)}>
-                        {isAuthorized && (
+                    {isAuthorized && (
                             <div>
                                 <label htmlFor="patient">Select Patient</label>
                                 <br/>
@@ -79,40 +82,40 @@ export default function AddObservation() {
                         )}
                         <br/>
                         <div className="mb-3">
-                            <label htmlFor="Performer" className="form-label">
-                                Performer
+                            <label htmlFor="Practitioner" className="form-label">
+                                Practitioner
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
-                                name="performer"
+                                name="practitioner"
                                 value={isAuthorized ? storedUser.name : ""}
                                 readOnly
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="Subject" className="form-label">
-                                Subject
+                            <label htmlFor="Date" className="form-label">
+                                Date
                             </label>
-                            <input
-                                type="text"
+                            <br/>
+                            <DatePicker
                                 className="form-control"
-                                placeholder="Enter the subject"
-                                name="subject"
-                                value={subject}
-                                onChange={(e) => onInputChange(e)}
+                                selected={startDate} 
+                                onChange={(date) => setStartDate(date)} 
+                                dateFormat="yyyy-MM-dd" 
+                                placeholderText="Select a date"
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="BasedOn" className="form-label">
-                                Based On
+                            <label htmlFor="Location" className="form-label">
+                                Location
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter based on information"
-                                name="basedOn"
-                                value={basedOn}
+                                placeholder="Enter location"
+                                name="location"
+                                value={location}
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>

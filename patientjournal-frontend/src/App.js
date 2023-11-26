@@ -9,6 +9,8 @@ import ViewUser from './users/ViewUser';
 import Login from "./users/Login";
 import React from 'react';
 import AddObservation from "./users/AddObservation";
+import AddCondition from "./users/AddCondition";
+import AddEncounter from "./users/AddEncounter";
 import Messages from "./users/Messages";
 import Patients from './pages/Patients';
 import ImageUpload from "./users/ImageUpload";
@@ -27,6 +29,8 @@ function App() {
         <Route exact path="/viewuser/:id" element={<ViewUser />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/addobservation" element={<AddObservation />} />
+        <Route exact path="/addcondition" element={<AddCondition />} />
+        <Route exact path="/addencounter" element={<AddEncounter />} />
         <Route exact path="/messages" element={<Messages />} />
         <Route path="/image-upload" element={<ImageUpload/>} />
         <Route path="/image-edit/:index" element={<ImageEdit/>} />

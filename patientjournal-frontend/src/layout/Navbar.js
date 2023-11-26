@@ -57,11 +57,22 @@ export default function Navbar() {
                                     <Link className='btn btn-outline-light' to="/addobservation">
                                         Add Observation
                                     </Link>
+                                    <Link className='btn btn-outline-light' to="/addcondition">
+                                        Add Condition
+                                    </Link>
+                                    <Link className='btn btn-outline-light' to="/addencounter">
+                                        Add Encounter
+                                    </Link>
                                 </>
                             ) : storedUser.type === 'STAFF' ? (
+                                <>
                                 <Link className='btn btn-outline-light' to="/addobservation">
                                     Add Observation
                                 </Link>
+                                <Link className='btn btn-outline-light' to="/addencounter">
+                                        Add Encounter
+                                    </Link>
+                                </>
                             ) : null}
                             <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
                             <button className='btn btn-outline-light' onClick={handleLogout}>
@@ -74,7 +85,7 @@ export default function Navbar() {
                                 Login
                             </Link>
                             <Link className='btn btn-outline-light' to="/image-upload">
-                                testing
+                                Images
                             </Link>
                             <Link className='btn btn-outline-light' to="/register">
                                 Register

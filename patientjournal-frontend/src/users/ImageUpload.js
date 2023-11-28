@@ -71,7 +71,7 @@ const ImageUpload = () => {
                     {Array.isArray(images) && images.length > 0 ? (
                         images.map((image, index) => (
                             <div key={index}>
-                                <Link to={`/image-edit/${index}`}>
+                                <Link to={`/image-edit/${image.id}`}>
                                     <img
                                         src={`data:image/jpeg;base64,${image.data}`}
                                         alt={`Image ${image.id}`}

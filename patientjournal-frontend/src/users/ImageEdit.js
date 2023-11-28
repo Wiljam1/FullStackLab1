@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 
 const ImageEdit = () => {
     const { index } = useParams();
@@ -9,6 +10,7 @@ const ImageEdit = () => {
     const [text, setText] = useState('');
     const [isDrawing, setIsDrawing] = useState(false);
     const [drawColor, setDrawColor] = useState('#000000');
+    const [drawingPaths, setDrawingPaths] = useState([]);
 
     const fetchImage = async () => {
         try {
@@ -38,19 +40,38 @@ const ImageEdit = () => {
 
         // Drawing functionality
         const startDrawing = (e) => {
-            setIsDrawing(true);
-            context.beginPath();
-            context.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+            if (canvasRef.current && imageData) {
+                setIsDrawing(true);
+                const context = canvasRef.current.getContext('2d');
+
+                const rect = canvasRef.current.getBoundingClientRect();
+                const offsetX = e.clientX - rect.left;
+                const offsetY = e.clientY - rect.top;
+
+                context.beginPath();
+                context.moveTo(offsetX, offsetY);
+                setDrawingPaths((prevPaths) => [...prevPaths, { x: offsetX, y: offsetY }]);
+            }
         };
 
         const draw = (e) => {
             if (!isDrawing) return;
-            context.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+
+            const context = canvasRef.current.getContext('2d');
+
+            const rect = canvasRef.current.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+
+            context.lineTo(offsetX, offsetY);
             context.stroke();
+            setDrawingPaths((prevPaths) => [...prevPaths, { x: offsetX, y: offsetY }]);
         };
 
         const stopDrawing = () => {
             setIsDrawing(false);
+            const context = canvasRef.current.getContext('2d');
+            context.closePath();
         };
 
         canvas.addEventListener('mousedown', startDrawing);
@@ -68,9 +89,8 @@ const ImageEdit = () => {
         setText(e.target.value);
     };
 
-    const handleSave = () => {
-        // Implement save functionality, send the edited image to the backend
-        // You may use a library like html2canvas to capture the canvas as an image
+    const handleSave = async () => {
+
     };
 
     return (

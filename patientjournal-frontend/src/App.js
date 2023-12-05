@@ -15,6 +15,7 @@ import Messages from "./users/Messages";
 import Patients from './pages/Patients';
 import ImageUpload from "./users/ImageUpload";
 import ImageEdit from "./users/ImageEdit";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route exact path="/messages" element={<Messages />} />
         <Route path="/image-upload" element={<ImageUpload/>} />
         <Route path="/image-edit/:index" element={<ImageEdit/>} />
+        <Route path="/search" element={<Search/>} />
       </Routes>
       </Router>
   

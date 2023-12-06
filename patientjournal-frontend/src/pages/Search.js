@@ -19,10 +19,8 @@ export default function Search() {
 
     const searchUsers = async () => {
         try {
-            console.log("test1");
-            //change to ur url
-            const result = await axios.get(`http://localhost:8080/users/search?pattern=wiljam`);
-            console.log("test2");
+            //Search for patients based on name, conditions, username or email.
+            const result = await axios.get(`http://localhost:8080/searchPatients?pattern=${searchTerm}`);
             console.log(result.data);
             setUsers(result.data);
             //maybe reset search

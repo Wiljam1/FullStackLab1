@@ -70,6 +70,7 @@ export default function AddUser() {
     console.log('Form Data:', userData);
 
     await axios.post("http://localhost:8081/user", userData);
+    //await axios.post("http://localhost:8080/create/user", userData); // post to Search Database aswell
     navigate("/");
   };
   return (

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DatePicker from "react-datepicker";
 export default function AddUser() {
   let navigate = useNavigate();
   const [user, setUser] = useState({
@@ -148,13 +149,12 @@ export default function AddUser() {
               <label htmlFor='custom' className='form-label'>
                 {customFieldInfo.label}
               </label>
-              <input
-                type="text"
-                className='form-control'
-                placeholder={customFieldInfo.placeholder}
-                name="custom"
-                value={custom}
-                onChange={(e) => onInputChange(e)}
+              <DatePicker
+                  className="form-control"
+                  selected={Date.now()}
+                  onSubmit={(e) => onInputChange(e)}
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText={customFieldInfo.placeholder}
               />
             </div>
             {showIsDoctorCheckbox && (

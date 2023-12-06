@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ImageEdit = () => {
     const { index } = useParams();
@@ -14,7 +15,10 @@ const ImageEdit = () => {
     const [drawingPaths, setDrawingPaths] = useState([]);
     const img = new Image();
     const [isBrushActive, setIsBrushActive] = useState(true);
-  
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    const isAuthorized = storedUser !== null && storedUser.type === 'DOCTOR';
+    let navigate = useNavigate();
+
     const fetchImage = async () => {
         try {
             const response = await axios.get(`http://localhost:3001/images/${index}`);
@@ -23,10 +27,15 @@ const ImageEdit = () => {
             console.error('Error fetching image data:', error.message);
         }
     };
-  
+
     useEffect(() => {
+        if (!isAuthorized) {
+            navigate('/image-upload');
+            return;
+        }
+
         fetchImage();
-    }, [index]);
+    }, [index], [isAuthorized]);
   
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -191,6 +200,7 @@ const ImageEdit = () => {
                 console.error('Error saving image:', error);
                 
             }
+            navigate('/image-upload');
         };
     };
   

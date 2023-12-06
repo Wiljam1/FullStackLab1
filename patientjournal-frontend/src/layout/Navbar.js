@@ -49,6 +49,9 @@ export default function Navbar() {
                             <Link className='btn btn-outline-light' to="/messages">
                                 Messages
                             </Link>
+                            <Link className='btn btn-outline-light' to="/image-upload">
+                                Images
+                            </Link>
                             {storedUser.type === 'DOCTOR' ? (
                                 <>
                                     <Link className='btn btn-outline-light' to="/patients">
@@ -63,6 +66,9 @@ export default function Navbar() {
                                     <Link className='btn btn-outline-light' to="/addencounter">
                                         Add Encounter
                                     </Link>
+                                    <Link className='btn btn-outline-light' to="/image-upload">
+                                        Images
+                                    </Link>
                                     <Link className='btn btn-outline-light' to="/search">
                                         Search
                                     </Link>
@@ -74,7 +80,10 @@ export default function Navbar() {
                                 </Link>
                                 <Link className='btn btn-outline-light' to="/addencounter">
                                         Add Encounter
-                                    </Link>
+                                </Link>
+                                <Link className='btn btn-outline-light' to="/image-upload">
+                                    Images
+                                </Link>
                                 </>
                             ) : null}
                             <p className='text-light font-weight-bold mt-2 mb-0'>Logged in as: {storedUser.name}</p>
@@ -87,9 +96,7 @@ export default function Navbar() {
                             <Link className='btn btn-outline-light' to="/login">
                                 Login
                             </Link>
-                            <Link className='btn btn-outline-light' to="/image-upload">
-                                Images
-                            </Link>
+
 
                             <Link className='btn btn-outline-light' to="/register">
                                 Register

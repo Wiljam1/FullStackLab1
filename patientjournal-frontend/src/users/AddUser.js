@@ -14,6 +14,8 @@ export default function AddUser() {
   });
   const { name, username, email, type, password, custom } = user;
   const showIsDoctorCheckbox = type === 'STAFF';
+  const showDatePicker = type === 'PATIENT';
+  const [startDate, setStartDate] = useState(new Date());
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
@@ -64,14 +66,13 @@ export default function AddUser() {
       };
     } else if (type === 'PATIENT') {
       userData.patientProfile = {
-        birthdate: custom,
+        birthdate: startDate.toISOString().split('T')[0],
       };
     }
   
     console.log('Form Data:', userData);
 
     await axios.post("http://localhost:8081/user", userData);
-    //await axios.post("http://localhost:8080/create/user", userData); // post to Search Database aswell
     navigate("/");
   };
   return (
@@ -146,18 +147,29 @@ export default function AddUser() {
                 <option value="STAFF">STAFF</option>
               </select>
             </div>
-            <div className='mb-3'>
-              <label htmlFor='custom' className='form-label'>
-                {customFieldInfo.label}
-              </label>
-              <DatePicker
-                  className="form-control"
-                  selected={Date.now()}
-                  onSubmit={(e) => onInputChange(e)}
-                  dateFormat="yyyy-MM-dd"
-                  placeholderText={customFieldInfo.placeholder}
-              />
-            </div>
+              <div className='mb-3'>
+                <label htmlFor='custom' className='form-label'>
+                  {customFieldInfo.label}
+                </label>
+                <br/>
+                {showDatePicker ? (
+                  
+                  <DatePicker
+                    dateFormat="yyyy-MM-dd"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder={customFieldInfo.placeholder}
+                    name="custom"
+                    value={custom}
+                    onChange={(e) => onInputChange(e)}
+                  />
+                )}
+              </div>
             {showIsDoctorCheckbox && (
             <div className='mb-3'>
               <label htmlFor='isDoctor' className='form-check-label'>

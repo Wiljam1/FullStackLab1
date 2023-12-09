@@ -56,7 +56,7 @@ ENV NODE_ENV production
 USER root
 
 # Copy package.json so that package manager commands can be used.
-COPY patientjournal-frontend/package.json .
+#COPY patientjournal-frontend/package.json .
 
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.

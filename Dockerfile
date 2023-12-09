@@ -40,7 +40,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     npm ci
 
 # Copy the rest of the source files into the image.
-COPY . .
+COPY patientjournal-frontend .
 # Run the build script.
 RUN npm run build
 
@@ -56,7 +56,7 @@ ENV NODE_ENV production
 USER root
 
 # Copy package.json so that package manager commands can be used.
-COPY package.json .
+COPY patientjournal-frontend/package.json .
 
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.

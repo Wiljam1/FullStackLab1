@@ -33,26 +33,45 @@ export default function AddObservation() {
             setUsers(result.data);
         };
         loadUsers();
+        
     }, [isAuthorized]);
+
+    useEffect(() => {
+        const jsonData = {
+          practitionerId: storedUser.staffProfile.id,
+          patientId: selectedPatient?.patientProfile.id || "",
+          date: startDate.toISOString().split('T')[0],
+          location: encounter.location,
+        };
+        setEncounter(jsonData);
+        console.log("Encounter: ", encounter);
+      }, [startDate, selectedPatient, encounter.location, storedUser.staffProfile.id]);
 
     const onInputChange = (e) => {
         setEncounter({ ...encounter, [e.target.name]: e.target.value });
     };
 
     const onSelectUser = (user) => {
-        setSelectedPatient(user);
         const jsonData = {
             practitionerId: storedUser.staffProfile.id,
             patientId: user.patientProfile.id,
-            date: startDate,
-            location: encounter.location
+            date: startDate.toISOString().split('T')[0],
+            location: encounter.location,
         };
+        setSelectedPatient(user);
         setEncounter(jsonData);
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(encounter);
+        const jsonData = {
+            practitionerId: storedUser.staffProfile.id,
+            patientId: selectedPatient.patientProfile.id,
+            date: startDate.toISOString().split('T')[0],
+            location: encounter.location,
+        };
+        setEncounter(jsonData);
         await axios.post("http://localhost:8082/encounter", encounter);
         navigate("/");
     };
@@ -98,13 +117,7 @@ export default function AddObservation() {
                                 Date
                             </label>
                             <br/>
-                            <DatePicker
-                                className="form-control"
-                                selected={startDate} 
-                                onChange={(date) => setStartDate(date)} 
-                                dateFormat="yyyy-MM-dd" 
-                                placeholderText="Select a date"
-                            />
+                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="Location" className="form-label">

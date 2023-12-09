@@ -19,13 +19,15 @@ export default function Search() {
 
     const searchUsers = async () => {
         try {
-            console.log("test1");
-            //change to ur url
-            const result = await axios.get(`http://localhost:8080/users/search?pattern=wiljam`);
-            console.log("test2");
+            //ReIndex so new entries can be searched for (slows down performance heavily)
+            await axios.get(`http://localhost:8080/index`);
+
+            //Search for patients based on name, conditions, username or email.
+            const result = await axios.get(`http://localhost:8080/searchPatients?pattern=${searchTerm}`);
             console.log(result.data);
             setUsers(result.data);
             //maybe reset search
+            setSearchTerm('')
         } catch (error) {
             console.error("Error loading users:", error);
         }
@@ -49,7 +51,7 @@ export default function Search() {
                     <input
                         className='form-control table shadow border'
                         type='text'
-                        placeholder='Search users...'
+                        placeholder='Search patients...'
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
